@@ -26,7 +26,7 @@
 <h3>Commands</h3>
 <ul>
   <li><b>sm_rank</b> - It shows your positions in the rank and your total points;</li>
-  <li><b>sm_top NUMBER</b> - It shows the Top 10 players listed in the database</li>
+  <li><b>sm_top</b> - It shows the Top 10 players listed in the database</li>
   <li><b>sm_resetrank_all</b> - It will reset all the players in the database (needs <b>ROOT FLAG</b> to have access)</li>
 </ul>
 
