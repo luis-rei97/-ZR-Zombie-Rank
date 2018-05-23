@@ -1,6 +1,6 @@
 <h1>[ZR] Simple Rank System</h1>
 
-<p>A simple rank system destinated to servers with the Zombie Reloaded Plugin.</p>
+<p>A simple rank system destined to servers with the Zombie Reloaded Plugin.</p>
 <p>It has only MySQL Support for now, and it's still in beta, so it will be changed through time!</p>
 
 <h2>Requirements: </h2>
