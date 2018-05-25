@@ -41,12 +41,13 @@
   <li><b>zr_rank_killzombie_smokeflashbang</b> (Default: 20) - Number of points that you get when you kill a zombie with a Smoke/Flashbang (0 will disable it);</li>
   <li><b>zr_rank_stabzombie_left</b> (Default: 1) - Number of points that you get when you stab a zombie with left mouse button (0 will disable it);</li>  
   <li><b>zr_rank_stabzombie_right</b> (Default: 1) - Number of points that you get when you stab a zombie with right mouse button (0 will disable it);</li>
+  <li><b>zr_rank_maxplayers_top</b> (Default: 50) - Max number of players that are shown in the top commands</li>
 </ul>
 
 <h3>To-Do List</h3>
 <ul>
   <li>Translations;</li>
-  <li>Support for more than 10 players in the sm_top command;</li>
+  <li>Support for more than 10 players in the sm_top command; -> DONE</li>
   <li>Better checker for left and right mouse buttons when you stab a zombie;</li>
   <li>A simple API for another sub-plugins;</li>
   <li>A WebPage to show the rank of any player;</li>
