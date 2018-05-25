@@ -16,7 +16,7 @@ public int OnSQLConnect(Handle owner, Handle hndl, char [] error, any data)
 		
 		if(IsMySql)
 		{
-			Format(buffer, sizeof(buffer), "CREATE TABLE if NOT EXISTS zrank (SteamID VARCHAR(64) NOT NULL PRIMARY KEY default '', playername VARCHAR(64) NOT NULL default '', points int NOT NULL default 0);");
+			Format(buffer, sizeof(buffer), "CREATE TABLE IF NOT EXISTS zrank (SteamID VARCHAR(64) NOT NULL PRIMARY KEY DEFAULT '', playername VARCHAR(64) NOT NULL DEFAULT '', points INT NOT NULL DEFAULT 0, human_infects INT NOT NULL DEFAULT 0, zombie_kills INT NOT NULL DEFAULT 0);");
 			
 			SQL_TQuery(db, OnSQLConnectCallback, buffer);
 		}
@@ -52,9 +52,6 @@ public void SQL_LoadPlayerCallback(Handle DB, Handle results, const char[] error
 		LogError("ERRO %s", error);
 		return;
 	}
-	
-	char SteamID[64];
-	GetClientAuthId(client, AuthId_Steam3, SteamID, sizeof(SteamID));
 
 	if(SQL_HasResultSet(results) && SQL_FetchRow(results))
 	{
@@ -65,9 +62,7 @@ public void SQL_LoadPlayerCallback(Handle DB, Handle results, const char[] error
 		char insert[256];
 		char playername[64];
 		GetClientName(client, playername, sizeof(playername));
-		SQL_EscapeString(db, playername, playername, sizeof(playername));
-		
-		FormatEx(insert, 256, "INSERT INTO zrank (SteamID , playername, points) VALUES ('%s', '%s', %d);", SteamID, playername, g_ZR_Rank_StartPoints);
+		FormatEx(insert, 256, "INSERT INTO zrank (SteamID , playername, points, human_infects, zombie_kills) VALUES ('%s', '%s', %d, 0, 0);", g_ZR_Rank_SteamID[client], playername, g_ZR_Rank_StartPoints);
 		SQL_TQuery(db, SQL_NothingCallback, insert);
 	}
 }
@@ -95,7 +90,6 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 		LogError(error);
 		return;
 	}
-	
 	g_MaxPlayers = SQL_GetRowCount(results);
 	
 	char SteamID[64];
@@ -108,7 +102,7 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 		
 		if(StrEqual(g_ZR_Rank_SteamID[client], SteamID, true))
 		{
-			PrintToChat(client, "%s You are in \x0E%d/%d\x01, with \x04%d points\x01!", PREFIX, i, g_MaxPlayers, g_ZR_Rank_Points[client]);
+			PrintToChat(client, "%s You are in \x0E%d/%d\x01, with \x04%d points\x01, \x04%d\x01 humans infected and \x04%d\x01 zombies killed!", PREFIX, i, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
 			break;
 		}
 	}
@@ -133,18 +127,89 @@ public void SQL_GetTop(Handle DB, Handle results, const char[] error, any data)
 
 	char SteamID[64];
 	char Name[64];
-	int points;
 	char buffer[256];
 	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
-	menu.SetTitle("[ZR] Rank Top 10");
+	menu.SetTitle("[ZR] Rank Top (Order by Points)");
 	
 	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%s - %d points", Name, points);
+		FormatEx(buffer, sizeof(buffer), "%s - %d points", Name, g_ZR_Rank_Points[client]);
+		menu.AddItem(SteamID, buffer);
+	}
+	menu.ExitButton = true;
+	menu.Display(client, 0);
+}
+
+public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error, any data)
+{
+	int client;
+	
+	if((client = GetClientOfUserId(data)) == 0)
+	{
+		return;
+	}
+	
+	if (results == INVALID_HANDLE)
+	{
+		LogError(error);
+		return;
+	}
+	
+	g_MaxPlayers = SQL_GetRowCount(results);
+
+	char SteamID[64];
+	char Name[64];
+	char buffer[256];
+	
+	
+	Menu menu = new Menu(Menu_Top10_Handler);
+	menu.SetTitle("[ZR] Rank Top (Order by Zombie Kills)");
+	
+	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
+	{
+		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
+		SQL_FetchString(results, 1, Name, sizeof(Name));
+		FormatEx(buffer, sizeof(buffer), "%s - %d Kills", Name, g_ZR_Rank_ZombieKills[client]);
+		menu.AddItem(SteamID, buffer);
+	}
+	menu.ExitButton = true;
+	menu.Display(client, 0);
+}
+
+public void SQL_GetTopInfectedHumans(Handle DB, Handle results, const char[] error, any data)
+{
+	int client;
+	
+	if((client = GetClientOfUserId(data)) == 0)
+	{
+		return;
+	}
+	
+	if (results == INVALID_HANDLE)
+	{
+		LogError(error);
+		return;
+	}
+	
+	g_MaxPlayers = SQL_GetRowCount(results);
+
+	char SteamID[64];
+	char Name[64];
+	char buffer[256];
+	
+	
+	Menu menu = new Menu(Menu_Top10_Handler);
+	menu.SetTitle("[ZR] Rank Top (Order by Infected Humans)");
+	
+	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
+	{
+		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
+		SQL_FetchString(results, 1, Name, sizeof(Name));
+		FormatEx(buffer, sizeof(buffer), "%s - %d Humans Infected", Name, g_ZR_Rank_ZombieKills[client]);
 		menu.AddItem(SteamID, buffer);
 	}
 	menu.ExitButton = true;

@@ -12,6 +12,7 @@ ConVar g_CVAR_ZR_Rank_StabZombie_Right;
 ConVar g_CVAR_ZR_Rank_KillZombie_Knife;
 ConVar g_CVAR_ZR_Rank_KillZombie_HE;
 ConVar g_CVAR_ZR_Rank_KillZombie_SmokeFlashbang;
+ConVar g_CVAR_ZR_Rank_MaxPlayers_Top;
 
 
 // Variables to Store ConVar Values;
@@ -24,9 +25,12 @@ int g_ZR_Rank_StabZombie_Right;
 int g_ZR_Rank_KillZombie_Knife;
 int g_ZR_Rank_KillZombie_HE;
 int g_ZR_Rank_KillZombie_SmokeFlashbang;
+int g_ZR_Rank_MaxPlayers_Top;
 
 // Stores the main points, that are given after some events;
 int g_ZR_Rank_Points[MAXPLAYERS + 1];
+int g_ZR_Rank_ZombieKills[MAXPLAYERS + 1];
+int g_ZR_Rank_HumanInfects[MAXPLAYERS + 1];
 char g_ZR_Rank_SteamID[MAXPLAYERS + 1][64];
 
 int g_MaxPlayers;

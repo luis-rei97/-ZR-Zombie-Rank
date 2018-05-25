@@ -58,16 +58,19 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 			if(g_ZR_Rank_KillZombie_Knife > 0 && StrEqual(weapon, "knife", true))
 			{
 				g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_Knife;
+				g_ZR_Rank_ZombieKills[attacker]++;
 				PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie with a knife!", PREFIX, g_ZR_Rank_KillZombie_Knife);
 			}
 			else if(g_ZR_Rank_KillZombie_HE > 0 && StrEqual(weapon, "hegrenade", true))
 			{
 				g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_HE;
+				g_ZR_Rank_ZombieKills[attacker]++;
 				PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie with a knife!", PREFIX, g_ZR_Rank_KillZombie_HE);
 			}
 			else if(g_ZR_Rank_KillZombie_SmokeFlashbang > 0 && (StrEqual(weapon, "smokegrenade", true) || StrEqual(weapon, "flashbang", true)))
 			{
 				g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_SmokeFlashbang;
+				g_ZR_Rank_ZombieKills[attacker]++;
 				PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie with a knife!", PREFIX, g_ZR_Rank_KillZombie_SmokeFlashbang);
 			}
 			else
@@ -77,12 +80,14 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				if(g_ZR_Rank_KillZombie_Headshot > 0 && headshot)
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_Headshot;
+					g_ZR_Rank_ZombieKills[attacker]++;
 					PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie, with an headshot!", PREFIX, g_ZR_Rank_KillZombie_Headshot);
 			
 				}
 				else
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie;
+					g_ZR_Rank_ZombieKills[attacker]++;
 					PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie!", PREFIX, g_ZR_Rank_KillZombie);
 				}
 			}
@@ -100,6 +105,7 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	}
 	
 	g_ZR_Rank_Points[client] += g_ZR_Rank_InfectHuman;
+	g_ZR_Rank_HumanInfects[client]++;
 	PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by infecting an human!", PREFIX, g_ZR_Rank_InfectHuman);
 	
 }
