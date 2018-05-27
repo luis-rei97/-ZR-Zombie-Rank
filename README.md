@@ -44,14 +44,18 @@
   <li><b>zr_rank_stabzombie_left</b> (Default: 1) - Number of points that you get when you stab a zombie with left mouse button (0 will disable it);</li>  
   <li><b>zr_rank_stabzombie_right</b> (Default: 1) - Number of points that you get when you stab a zombie with right mouse button (0 will disable it);</li>
   <li><b>zr_rank_maxplayers_top</b> (Default: 50) - Max number of players that are shown in the top commands</li>
+  <li><b>zr_rank_minplayers</b> (Default: 4) - Minimum players for activating the rank system (0 will disable this function)</li>
+  <li><b>zr_rank_beinginfected</b> (Default: 1) - How many points you lost if you got infected by a zombie</li>
+  <li><b>zr_rank_beingkilled</b> (Default: 1) - How many points you lost if you get killed by an human</li>
 </ul>
 
 <h3>To-Do List</h3>
 <ul>
   <li>Translations;</li>
-  <li>Support for more than 10 players in the sm_top command; -> DONE</li>
+  <li>Support for more than 10 players in the sm_top command; -> <b>DONE</b></li>
+  <li>Lose points by being infected or killed; -> <b>DONE</b></li>
   <li>Better checker for left and right mouse buttons when you stab a zombie;</li>
-  <li>A simple API for another sub-plugins;</li>
+  <li>A simple API for another sub-plugins; - <b>Partialy DONE</b></li>
   <li>A WebPage to show the rank of any player;</li>
   <li>Optimize the code (<b><i><u>A LOT</b></i></u>);</li>
   <li>Other suggestions given to me;</li>
