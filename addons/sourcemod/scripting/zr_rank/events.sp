@@ -2,7 +2,7 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 {
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	
-	if(!IsValidClient(attacker))
+	if(!IsValidClient(attacker) || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
 		return Plugin_Continue;
 	}
@@ -43,7 +43,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(!attacker || !victim || victim == attacker || !g_ZR_Rank_KillZombie)
+	if(!attacker || !victim || victim == attacker || !g_ZR_Rank_KillZombie || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
 	{
 		return Plugin_Continue;
 	}
@@ -91,21 +91,36 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 					PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie!", PREFIX, g_ZR_Rank_KillZombie);
 				}
 			}
+			
+			if(g_ZR_Rank_BeingKilled > 0)
+			{
+				g_ZR_Rank_Points[victim] -= g_ZR_Rank_BeingKilled;
+				PrintToChat(victim, "%s You lost \x0B%d point(s)\x01 for being killed by a zombie!", PREFIX, g_ZR_Rank_BeingKilled);			
+			}
+	
 		}
 	}
-	
 	return Plugin_Continue;
 }
 
 public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool respawnOverride, bool respawn)
 {
-	if(!client || !attacker || motherInfect || !g_ZR_Rank_InfectHuman)
+	if(!client || !attacker || motherInfect || !g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
 		return;
 	}
 	
-	g_ZR_Rank_Points[client] += g_ZR_Rank_InfectHuman;
-	g_ZR_Rank_HumanInfects[client]++;
-	PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by infecting an human!", PREFIX, g_ZR_Rank_InfectHuman);
+	if(g_ZR_Rank_InfectHuman > 0)
+	{
+		g_ZR_Rank_Points[attacker] += g_ZR_Rank_InfectHuman;
+		PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by infecting an human!", PREFIX, g_ZR_Rank_InfectHuman);
+	}
 	
+	g_ZR_Rank_HumanInfects[attacker]++;
+	
+	if(g_ZR_Rank_BeingInfected > 0)
+	{		
+		g_ZR_Rank_Points[client] -= g_ZR_Rank_BeingInfected;
+		PrintToChat(client, "%s You lost \x0B%d point(s)\x01 for being infected by a zombie!", PREFIX, g_ZR_Rank_BeingInfected);
+	}
 }

@@ -1,0 +1,22 @@
+#if defined _zr_rank_included
+  #endinput
+#endif
+#define _zr_rank_included
+
+
+/*********************************************************
+ * Get's the number of a player's points
+ *
+ * @param client		The client to get the points
+ * @return				The number of points		
+ *********************************************************/
+native int ZR_Rank_GetPoints(int client);
+
+/*********************************************************
+ * Sets points to a certain player
+ *
+ * @param client		The client to get the points
+ * @param points		Number of points to set
+ * @return				The number of points	
+ *********************************************************/
+native bool ZR_Rank_SetPoints(int client, int points);
