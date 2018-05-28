@@ -49,6 +49,42 @@
   <li><b>zr_rank_beingkilled</b> (Default: 1) - How many points you lost if you get killed by an human</li>
 </ul>
 
+<h3>API</h3>
+
+```Sourcepawn
+/*********************************************************
+ * Get's the number of a player's points
+ *
+ * @param client		The client to get the points
+ * @return				The number of points		
+ *********************************************************/
+native int ZR_Rank_GetPoints(int client);
+
+/*********************************************************
+ * Get's the number of a player's Zombie Kills
+ *
+ * @param client		The client to get the zombie kills
+ * @return				The number of points		
+ *********************************************************/
+native int ZR_Rank_GetZombieKills(int client);
+
+/*********************************************************
+ * Get's the number of a player's Human Infects
+ *
+ * @param client		The client to get the zombie kills
+ * @return				The number of points		
+ *********************************************************/
+native int ZR_Rank_GetHumanInfects(int client);
+
+/*********************************************************
+ * Sets points to a certain player
+ *
+ * @param client		The client to get the points
+ * @param points		Number of points to set
+ * @return				The number of points	
+ *********************************************************/
+native bool ZR_Rank_SetPoints(int client, int points);
+```
 <h3>To-Do List</h3>
 <ul>
   <li>Translations;</li>
