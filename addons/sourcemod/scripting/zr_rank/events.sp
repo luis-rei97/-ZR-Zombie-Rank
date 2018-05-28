@@ -92,12 +92,19 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				}
 			}
 			
-			if(g_ZR_Rank_BeingKilled > 0)
-			{
-				g_ZR_Rank_Points[victim] -= g_ZR_Rank_BeingKilled;
-				PrintToChat(victim, "%s You lost \x0B%d point(s)\x01 for being killed by a zombie!", PREFIX, g_ZR_Rank_BeingKilled);			
-			}
+			
 	
+		}
+		else if(ZR_IsClientZombie(victim))
+		{
+			if(GetClientTeam(attacker) == 2)
+			{
+				if(g_ZR_Rank_BeingKilled > 0)
+				{
+					g_ZR_Rank_Points[victim] -= g_ZR_Rank_BeingKilled;
+					PrintToChat(victim, "%s You lost \x0B%d point(s)\x01 for being killed by a human!", PREFIX, g_ZR_Rank_BeingKilled);			
+				}
+			}
 		}
 	}
 	return Plugin_Continue;

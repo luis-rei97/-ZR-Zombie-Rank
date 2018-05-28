@@ -56,6 +56,8 @@ public void SQL_LoadPlayerCallback(Handle DB, Handle results, const char[] error
 	if(SQL_HasResultSet(results) && SQL_FetchRow(results))
 	{
 		g_ZR_Rank_Points[client] = SQL_FetchInt(results, 2);
+		g_ZR_Rank_HumanInfects[client] = SQL_FetchInt(results, 3);
+		g_ZR_Rank_ZombieKills[client] = SQL_FetchInt(results, 4);
 	}
 	else
 	{

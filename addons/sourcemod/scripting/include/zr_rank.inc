@@ -13,6 +13,22 @@
 native int ZR_Rank_GetPoints(int client);
 
 /*********************************************************
+ * Get's the number of a player's Zombie Kills
+ *
+ * @param client		The client to get the zombie kills
+ * @return				The number of points		
+ *********************************************************/
+native int ZR_Rank_GetZombieKills(int client);
+
+/*********************************************************
+ * Get's the number of a player's Human Infects
+ *
+ * @param client		The client to get the zombie kills
+ * @return				The number of points		
+ *********************************************************/
+native int ZR_Rank_GetHumanInfects(int client);
+
+/*********************************************************
  * Sets points to a certain player
  *
  * @param client		The client to get the points

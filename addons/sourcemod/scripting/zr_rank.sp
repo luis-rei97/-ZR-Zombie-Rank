@@ -34,7 +34,7 @@ public Plugin myinfo =
 	name = "[ZR] Rank",
 	author = "Hallucinogenic Troll",
 	description = "Zombie Rank for Zombie Reloaded Servers",
-	version = "1.2",
+	version = "1.3",
 	url = "http://HallucinogenicTrollConfigs.com/"
 };
 
@@ -58,6 +58,8 @@ public void OnPluginStart()
 
 	g_CVAR_ZR_Rank_BeingInfected = CreateConVar("zr_rank_beinginfected", "1", "How many points you lost if you got infected by a zombie", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_BeingKilled = CreateConVar("zr_rank_beingkilled", "1", "How many points you lost if you get killed by an human", _, true, 0.0, false);
+	
+	
 	// Events
 	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
 	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
@@ -68,7 +70,6 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_topzkills", Command_TopZombieKills, "Show the Top Players List, order by Zombie Kills");
 	RegConsoleCmd("sm_topihumans", Command_TopInfectedHumans, "Show the Top Players List, order by Infected Humans");
 	RegAdminCmd("sm_resetrank_all", Command_ResetRank_All, ADMFLAG_ROOT, "Deletes all the players that are in the database");
-	
 	
 	// Exec Config
 	AutoExecConfig(true, "zr_rank", "zr_rank");
