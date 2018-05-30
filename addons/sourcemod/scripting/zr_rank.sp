@@ -34,7 +34,7 @@ public Plugin myinfo =
 	name = "[ZR] Rank",
 	author = "Hallucinogenic Troll",
 	description = "Zombie Rank for Zombie Reloaded Servers",
-	version = "1.3",
+	version = "1.3.1",
 	url = "http://HallucinogenicTrollConfigs.com/"
 };
 
