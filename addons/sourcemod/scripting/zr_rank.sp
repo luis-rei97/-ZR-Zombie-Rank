@@ -142,7 +142,7 @@ public Action Command_Rank(int client, int args)
 	return Plugin_Handled;
 }
 
-void GetRank(int client)
+stock void GetRank(int client)
 {
 	char query[255];
 	Format(query, sizeof(query), "SELECT * FROM zrank ORDER BY points DESC;");
@@ -150,6 +150,12 @@ void GetRank(int client)
 	SQL_TQuery(db, SQL_GetRank, query, GetClientUserId(client));
 }
 
+stock bool IsValidClient(int client)
+{
+	if (client <= 0) return false;
+	if (client > MaxClients) return false;
+	return IsClientInGame(client);
+}
 
 public Action Command_Top(int client, int args)
 {
