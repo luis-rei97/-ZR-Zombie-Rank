@@ -7,6 +7,9 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 		return Plugin_Continue;
 	}
 	
+	If (!IsPlayerAlive(attacker)
+		return Plugin_Continue;
+	
 	if(ZR_IsClientHuman(attacker))
 	{
 		int victim = GetClientOfUserId(event.GetInt("userid"));
@@ -43,14 +46,20 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(!attacker || !victim || victim == attacker || !g_ZR_Rank_KillZombie || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
+	if (!IsValidClient(victim) || !IsValidClient(attacker))
+		return Plugin_Continue;
+	
+	if (!IsPlayerAlive(attacker))
+		return Plugin_Continue;
+	
+	if(victim == attacker || !g_ZR_Rank_KillZombie || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
 	{
 		return Plugin_Continue;
 	}
 	
 	if(ZR_IsClientHuman(attacker))
 	{
-		if(GetClientTeam(victim) == 2)
+		if(ZR_IsClientZombie(victim))
 		{
 			char weapon[32];
 			event.GetString("weapon", weapon, sizeof(weapon));
@@ -97,7 +106,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 		}
 		else if(ZR_IsClientZombie(victim))
 		{
-			if(GetClientTeam(attacker) == 2)
+			if(ZR_IsClientHuman(attacker))
 			{
 				if(g_ZR_Rank_BeingKilled > 0)
 				{
@@ -112,7 +121,13 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 
 public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool respawnOverride, bool respawn)
 {
-	if(!client || !attacker || motherInfect || !g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	if (!IsValidClient(client) || !IsValidClient(attacker))
+		return Plugin_Continue;
+	
+	if (!IsPlayerAlive(attacker))
+		return Plugin_Continue;
+	
+	if(motherInfect || !g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
 		return;
 	}
