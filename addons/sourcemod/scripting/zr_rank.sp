@@ -150,13 +150,6 @@ stock void GetRank(int client)
 	SQL_TQuery(db, SQL_GetRank, query, GetClientUserId(client));
 }
 
-stock bool IsValidClient(int client)
-{
-	if (client <= 0) return false;
-	if (client > MaxClients) return false;
-	return IsClientInGame(client);
-}
-
 public Action Command_Top(int client, int args)
 {
 	int num = 0;
