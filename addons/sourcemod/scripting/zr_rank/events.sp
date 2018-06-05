@@ -1,8 +1,9 @@
 public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
+	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(!IsValidClient(attacker) || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	if(!IsValidClient(victim) || !IsValidClient(attacker) || !g_ZR_Rank_PostInfect || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
 		return Plugin_Continue;
 	}
@@ -12,9 +13,7 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 	
 	if(ZR_IsClientHuman(attacker))
 	{
-		int victim = GetClientOfUserId(event.GetInt("userid"));
-		
-		if(ZR_IsClientZombie(victim))
+		if(GetClientTeam(victim) == 2)
 		{
 			char weapon_name[100];
 			int weapon = GetEntPropEnt(attacker, Prop_Send, "m_hActiveWeapon");
@@ -52,14 +51,14 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	if (!IsPlayerAlive(attacker))
 		return Plugin_Continue;
 	
-	if(victim == attacker || !g_ZR_Rank_KillZombie || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
+	if(victim == attacker || !g_ZR_Rank_KillZombie || !g_ZR_Rank_PostInfect || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
 	{
 		return Plugin_Continue;
 	}
 	
 	if(ZR_IsClientHuman(attacker))
 	{
-		if(ZR_IsClientZombie(victim))
+		if(GetClientTeam(victim) == 2)
 		{
 			char weapon[32];
 			event.GetString("weapon", weapon, sizeof(weapon));
@@ -101,18 +100,10 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				}
 			}
 			
-			
-	
-		}
-		else if(ZR_IsClientZombie(victim))
-		{
-			if(ZR_IsClientHuman(attacker))
+			if(g_ZR_Rank_BeingKilled > 0)
 			{
-				if(g_ZR_Rank_BeingKilled > 0)
-				{
-					g_ZR_Rank_Points[victim] -= g_ZR_Rank_BeingKilled;
-					PrintToChat(victim, "%s You lost \x0B%d point(s)\x01 for being killed by a human!", PREFIX, g_ZR_Rank_BeingKilled);			
-				}
+				g_ZR_Rank_Points[victim] -= g_ZR_Rank_BeingKilled;
+				PrintToChat(victim, "%s You lost \x0B%d point(s)\x01 for being killed by a human!", PREFIX, g_ZR_Rank_BeingKilled);			
 			}
 		}
 	}
@@ -121,13 +112,19 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 
 public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool respawnOverride, bool respawn)
 {
+	if (motherInfect)
+	{
+		g_ZR_Rank_PostInfect = true;
+		return;
+	}
+
 	if (!IsValidClient(client) || !IsValidClient(attacker))
 		return Plugin_Continue;
 	
 	if (!IsPlayerAlive(attacker))
 		return Plugin_Continue;
 	
-	if(motherInfect || !g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	if(!g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
 		return;
 	}
