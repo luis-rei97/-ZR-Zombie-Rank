@@ -35,6 +35,8 @@ int g_ZR_Rank_MinPlayers;
 int g_ZR_Rank_BeingInfected;
 int g_ZR_Rank_BeingKilled;
 
+bool g_ZR_Rank_PostInfect;
+
 // Stores the main points, that are given after some events;
 int g_ZR_Rank_Points[MAXPLAYERS + 1];
 int g_ZR_Rank_ZombieKills[MAXPLAYERS + 1];
