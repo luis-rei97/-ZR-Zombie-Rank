@@ -34,7 +34,7 @@ public Plugin myinfo =
 	name = "[ZR] Rank",
 	author = "Hallucinogenic Troll",
 	description = "Zombie Rank for Zombie Reloaded Servers",
-	version = "1.3.1",
+	version = "1.3.2",
 	url = "http://HallucinogenicTrollConfigs.com/"
 };
 
@@ -63,6 +63,7 @@ public void OnPluginStart()
 	// Events
 	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
 	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
+	HookEvent("round_start",Event_RoundStart, EventHookMode_PostNoCopy);
 	
 	// Commands
 	RegConsoleCmd("sm_rank", Command_Rank, "Shows a player rank in the menu");
@@ -73,9 +74,17 @@ public void OnPluginStart()
 	
 	// Exec Config
 	AutoExecConfig(true, "zr_rank", "zr_rank");
+	
+	//Late Load
+	g_ZR_Rank_NumPlayers = 0;
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (IsClientInGame(i))
+		{
+			OnClientPostAdminCheck(i);
+		}
+	}
 }
-
-
 
 public void OnConfigsExecuted()
 {
