@@ -1,3 +1,8 @@
+public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadcast)
+{
+	g_ZR_Rank_PostInfect = false;
+}
+
 public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
