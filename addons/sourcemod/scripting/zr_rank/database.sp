@@ -104,7 +104,7 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 		
 		if(StrEqual(g_ZR_Rank_SteamID[client], SteamID, true))
 		{
-			PrintToChat(client, "%s You are in \x0E%d/%d\x01, with \x04%d points\x01, \x04%d\x01 humans infected and \x04%d\x01 zombies killed!", PREFIX, i, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
+			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", i, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
 			break;
 		}
 	}
@@ -133,13 +133,15 @@ public void SQL_GetTop(Handle DB, Handle results, const char[] error, any data)
 	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
-	menu.SetTitle("[ZR] Rank Top (Order by Points)");
+	
+	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Points");
+	menu.SetTitle(buffer);
 	
 	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%s - %d points", Name, g_ZR_Rank_Points[client]);
+		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Points", Name, g_ZR_Rank_Points[client]);
 		menu.AddItem(SteamID, buffer);
 	}
 	menu.ExitButton = true;
@@ -169,13 +171,15 @@ public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error,
 	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
-	menu.SetTitle("[ZR] Rank Top (Order by Zombie Kills)");
+	
+	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Zombie Kills");
+	menu.SetTitle(buffer);
 	
 	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%s - %d Kills", Name, g_ZR_Rank_ZombieKills[client]);
+		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Zombie Kills", Name, g_ZR_Rank_ZombieKills[client]);
 		menu.AddItem(SteamID, buffer);
 	}
 	menu.ExitButton = true;
@@ -205,13 +209,15 @@ public void SQL_GetTopInfectedHumans(Handle DB, Handle results, const char[] err
 	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
-	menu.SetTitle("[ZR] Rank Top (Order by Infected Humans)");
+	
+	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Human Infects");
+	menu.SetTitle(buffer);
 	
 	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%s - %d Humans Infected", Name, g_ZR_Rank_ZombieKills[client]);
+		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Humans Infected", Name, g_ZR_Rank_ZombieKills[client]);
 		menu.AddItem(SteamID, buffer);
 	}
 	menu.ExitButton = true;

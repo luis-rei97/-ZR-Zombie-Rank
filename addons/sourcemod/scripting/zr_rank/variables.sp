@@ -1,5 +1,4 @@
 // Chat's main prefix;
-#define PREFIX "[\x0EZR Rank\x01]"
 
 
 // ConVars
@@ -13,13 +12,16 @@ ConVar g_CVAR_ZR_Rank_KillZombie_Knife;
 ConVar g_CVAR_ZR_Rank_KillZombie_HE;
 ConVar g_CVAR_ZR_Rank_KillZombie_SmokeFlashbang;
 ConVar g_CVAR_ZR_Rank_MaxPlayers_Top;
-
+ConVar g_CVAR_ZR_Rank_Prefix;
 ConVar g_CVAR_ZR_Rank_MinPlayers;
 ConVar g_CVAR_ZR_Rank_BeingInfected;
 ConVar g_CVAR_ZR_Rank_BeingKilled;
+ConVar g_CVAR_ZR_Rank_AllowWarmup;
 
 
 // Variables to Store ConVar Values;
+
+char g_ZR_Rank_Prefix[32];
 int g_ZR_Rank_InfectHuman;
 int g_ZR_Rank_KillZombie;
 int g_ZR_Rank_KillZombie_Headshot;
@@ -30,7 +32,7 @@ int g_ZR_Rank_KillZombie_Knife;
 int g_ZR_Rank_KillZombie_HE;
 int g_ZR_Rank_KillZombie_SmokeFlashbang;
 int g_ZR_Rank_MaxPlayers_Top;
-
+int g_ZR_Rank_AllowWarmup;
 int g_ZR_Rank_MinPlayers;
 int g_ZR_Rank_BeingInfected;
 int g_ZR_Rank_BeingKilled;
@@ -50,13 +52,3 @@ Handle db;
 
 // Check if it is MySQL that you set on the databases.cfg
 bool IsMySql;
-
-stock bool IsValidClient(int client)
-{
-	if(client >= 1 && client <= MaxClients && IsClientConnected(client) && IsClientInGame(client))
-	{
-		return true;
-	}
-	
-	return false;
-}

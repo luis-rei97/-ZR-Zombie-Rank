@@ -1,0 +1,151 @@
+"Phrases"
+{
+	"Reset All"
+	{
+		"en"	"Database has been reseted successfully!"
+		"pt"	"A base de dados foi apagada com sucesso!"
+	}
+
+	"Warmup End"
+	{
+		"en"	"Rank will be enabled after Warmup!"
+		"pt"	"O rank será ativado após o aquecimento terminar!"
+	}
+
+	"Stab Zombie Left Won"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by stabbing a zombie with mouse left button!"
+		"pt"		"Ganhaste {1} ponto(s) por chinar um zombie com o lado esquerdo do rato!"
+	}
+
+	"Stab Zombie Right Won"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by stabbing a zombie with mouse right button!"
+		"pt"		"Ganhaste {1} ponto(s) por chinar um zombie com o lado direito do rato!"
+	}
+
+	"Kill Zombie Knife"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie with a knife!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com a faca!"
+	}
+
+	"Kill Zombie HE"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie with a HE grenade!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma granada HE!"
+	}
+
+	"Kill Zombie Smoke"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie with a smoke grenade!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma granada de fumo!"
+	}
+
+	"Kill Zombie Flash"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie with a flashbang!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma flashbang!"
+	}
+
+	"Kill Zombie Decoy"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie with a decoy grenade!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma decoy!"
+	}
+
+	"Kill Zombie Headshot"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie with an headshot!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com um tiro na cabeça!"
+	}
+
+	"Kill Zombie Normal"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by killing a zombie!"
+		"pt"		"Ganhaste {1} ponto(s) por matar um zombie!"
+	}
+
+	"Killed by Human"
+	{
+		"#format"	"{1:d}"
+		"en"		"You lost {1} point(s) for being killed by an human!"
+		"pt"		"Perdeste {1} ponto(s) por teres sido morto por um humano!"
+	}
+
+	"Infect Human"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) by infecting an human!"
+		"pt"		"Ganhaste {1} ponto(s) por infetares um humano!"
+	}
+
+	"Infected by Human"
+	{
+		"#format"	"{1:d}"
+		"en"		"You lost {1} point(s) for being infected by an human!"
+		"pt"		"Perdeste {1} ponto(s) por teres sido infetado por um humano!"
+	}
+
+	"Top Order By Points"
+	{
+		"en"	"[ZR] Rank Top (Order by Points)"
+		"pt"	"[ZR] Rank Top (Ordenado por Pontos)"
+	}
+
+	"X - Y Points"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"{1} - {2} points"
+		"pt"		"{1} - {2} pontos"
+	}
+
+	"Top Order By Zombie Kills"
+	{
+		"en"	"[ZR] Rank Top (Order by Zombie Kills)"
+		"pt"	"[ZR] Rank Top (Ordenado por Zombies Mortos)"
+	}
+
+	"X - Y Zombie Kills"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"{1} - {2} Zombie Kills"
+		"pt"		"{1} - {2} Zombies Mortos"
+	}
+
+	"Top Order By Human Infects"
+	{
+		"en"	"[ZR] Rank Top (Order by Infected Humans)"
+		"pt"	"[ZR] Rank Top (Ordenado por Humanos Infetados)"
+	}
+
+	"X - Y Humans Infected"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"{1} - {2} Humans Infected"
+		"pt"		"{1} - {2} Humanos Infetados"
+	}
+
+	"Show Rank"
+	{
+		"#format" 	"{1:d},{2:d},{3:d},{4:d},{5:d}"
+		"en"		"You are in {1}/{2}, with {3} points, {4} humans infected and {5} zombies killed!"
+		"pt"		"Estás em {1}/{2}, com {3} pontos, {4} humanos infetados e {5} zombies mortos!"
+	}
+
+	"Show More Than X Players"
+	{
+		"#format"	"{1:d}"
+		"en" 		"You can't show more than {1} players on top!"
+		"pt"		"Não podes ver mais de {1} jogadores de uma vez!"
+	}
+}
