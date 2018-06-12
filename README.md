@@ -47,7 +47,7 @@
 - <b>zr_rank_beinginfected</b> (Default: 1) - How many points you lost if you got infected by a zombie;
 - <b>zr_rank_beingkilled</b> (Default: 1) - How many points you lost if you get killed by an human;
 - <b>zr_rank_allow_warmup</b> (Default: 0) - Allow players to get or lose points during Warmup;
-- <b>zr_rank_prefix</b> (Default: [{green}ZR Rank{default}] - Prefix to be used in every chat's plugin (You can use ColorVariables colors code);
+- <b>zr_rank_prefix</b> (Default: [{purple}ZR Rank{default}] - Prefix to be used in every chat's plugin (You can use ColorVariables colors code);
 
 <h3>To-Do List</h3>
 
