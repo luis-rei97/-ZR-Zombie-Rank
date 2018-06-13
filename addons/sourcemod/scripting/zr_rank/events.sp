@@ -1,10 +1,21 @@
 public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
+	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	{
+		CPrintToChatAll("%s %t", g_ZR_Rank_Prefix, "Warmup End");
+		return;
+	}
+	
 	g_ZR_Rank_PostInfect = false;
 }
 
 public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
+	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	{
+		return Plugin_Continue;
+	}
+	
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
@@ -13,7 +24,7 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 		return Plugin_Continue;
 	}
 	
-	If (!IsPlayerAlive(attacker)
+	if (!IsPlayerAlive(attacker))
 		return Plugin_Continue;
 	
 	if(ZR_IsClientHuman(attacker))
@@ -31,12 +42,12 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 				if(damage < 50 && g_ZR_Rank_StabZombie_Left > 0)
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_StabZombie_Left;
-					PrintToChat(attacker, "%s You won \x0B1 point(s)\x01 by stabbing a zombie with the mouse left button!", PREFIX, g_ZR_Rank_StabZombie_Left);
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Stab Zombie Left Won", g_ZR_Rank_StabZombie_Left);
 				}
 				else if(damage > 50 && g_ZR_Rank_StabZombie_Right > 0)
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_StabZombie_Right;
-					PrintToChat(attacker, "%s You won \x0B1 point(s)\x01 by stabbing a zombie with the mouse right button!", PREFIX, g_ZR_Rank_StabZombie_Right);
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Stab Zombie Right Won", g_ZR_Rank_StabZombie_Right);
 				}	
 			}
 		}
@@ -47,6 +58,11 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 
 public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
 {
+	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	{
+		return Plugin_Continue;
+	}
+	
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
@@ -72,19 +88,34 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 			{
 				g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_Knife;
 				g_ZR_Rank_ZombieKills[attacker]++;
-				PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie with a knife!", PREFIX, g_ZR_Rank_KillZombie_Knife);
+				CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie Knife", g_ZR_Rank_KillZombie_Knife);
 			}
 			else if(g_ZR_Rank_KillZombie_HE > 0 && StrEqual(weapon, "hegrenade", true))
 			{
 				g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_HE;
 				g_ZR_Rank_ZombieKills[attacker]++;
-				PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie with a knife!", PREFIX, g_ZR_Rank_KillZombie_HE);
+				CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie HE", g_ZR_Rank_KillZombie_HE);
 			}
-			else if(g_ZR_Rank_KillZombie_SmokeFlashbang > 0 && (StrEqual(weapon, "smokegrenade", true) || StrEqual(weapon, "flashbang", true)))
+			else if(g_ZR_Rank_KillZombie_SmokeFlashbang > 0)
 			{
-				g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_SmokeFlashbang;
-				g_ZR_Rank_ZombieKills[attacker]++;
-				PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie with a knife!", PREFIX, g_ZR_Rank_KillZombie_SmokeFlashbang);
+				if(StrEqual(weapon, "smokegrenade", true))
+				{
+					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_SmokeFlashbang;
+					g_ZR_Rank_ZombieKills[attacker]++;
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie Smoke", g_ZR_Rank_KillZombie_SmokeFlashbang);
+				}
+				else if(StrEqual(weapon, "flashbang", true))
+				{
+					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_SmokeFlashbang;
+					g_ZR_Rank_ZombieKills[attacker]++;
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie Flashbang", g_ZR_Rank_KillZombie_SmokeFlashbang);
+				}
+				else if(StrEqual(weapon, "decoy", true))
+				{
+					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_SmokeFlashbang;
+					g_ZR_Rank_ZombieKills[attacker]++;
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie Decoy", g_ZR_Rank_KillZombie_SmokeFlashbang);
+				}
 			}
 			else
 			{
@@ -94,21 +125,21 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie_Headshot;
 					g_ZR_Rank_ZombieKills[attacker]++;
-					PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie, with an headshot!", PREFIX, g_ZR_Rank_KillZombie_Headshot);
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie Headshot", g_ZR_Rank_KillZombie_Headshot);
 			
 				}
 				else
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_KillZombie;
 					g_ZR_Rank_ZombieKills[attacker]++;
-					PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by killing a zombie!", PREFIX, g_ZR_Rank_KillZombie);
+					CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Kill Zombie Normal", g_ZR_Rank_KillZombie);
 				}
 			}
 			
 			if(g_ZR_Rank_BeingKilled > 0)
 			{
 				g_ZR_Rank_Points[victim] -= g_ZR_Rank_BeingKilled;
-				PrintToChat(victim, "%s You lost \x0B%d point(s)\x01 for being killed by a human!", PREFIX, g_ZR_Rank_BeingKilled);			
+				CPrintToChat(victim, "%s %t", g_ZR_Rank_Prefix, "Killed by Human", g_ZR_Rank_BeingKilled);
 			}
 		}
 	}
@@ -117,6 +148,11 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 
 public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool respawnOverride, bool respawn)
 {
+	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	{
+		return;
+	}
+	
 	if (motherInfect)
 	{
 		g_ZR_Rank_PostInfect = true;
@@ -124,10 +160,10 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	}
 
 	if (!IsValidClient(client) || !IsValidClient(attacker))
-		return Plugin_Continue;
+		return;
 	
 	if (!IsPlayerAlive(attacker))
-		return Plugin_Continue;
+		return;
 	
 	if(!g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
@@ -137,7 +173,7 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	if(g_ZR_Rank_InfectHuman > 0)
 	{
 		g_ZR_Rank_Points[attacker] += g_ZR_Rank_InfectHuman;
-		PrintToChat(attacker, "%s You won \x0B%d point(s)\x01 by infecting an human!", PREFIX, g_ZR_Rank_InfectHuman);
+		CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Infect Human", g_ZR_Rank_InfectHuman);
 	}
 	
 	g_ZR_Rank_HumanInfects[attacker]++;
@@ -145,6 +181,6 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	if(g_ZR_Rank_BeingInfected > 0)
 	{		
 		g_ZR_Rank_Points[client] -= g_ZR_Rank_BeingInfected;
-		PrintToChat(client, "%s You lost \x0B%d point(s)\x01 for being infected by a zombie!", PREFIX, g_ZR_Rank_BeingInfected);
+		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Infected by Human", g_ZR_Rank_BeingInfected);
 	}
 }
