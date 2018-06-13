@@ -132,7 +132,7 @@ public void OnClientDisconnect(int client)
 	GetClientName(client, playername, sizeof(playername));
 	GetClientAuthId(client, AuthId_Steam3, g_ZR_Rank_SteamID[client], sizeof(g_ZR_Rank_SteamID[]));
 	SQL_EscapeString(db, playername, playername, sizeof(playername));
-	FormatEx(update, 256, "UPDATE  zrank SET playername = '%s', points =  %i , human_infects = %i, zombie_kills = %i WHERE  SteamID = '%s';", playername, g_ZR_Rank_Points[client], g_ZR_Rank_ZombieKills[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_SteamID[client]);
+	FormatEx(update, 256, "UPDATE zrank SET playername = '%s', points =  %i , human_infects = %i, zombie_kills = %i WHERE SteamID = '%s';", playername, g_ZR_Rank_Points[client], g_ZR_Rank_ZombieKills[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_SteamID[client]);
 	
 	SQL_TQuery(db, SQL_NothingCallback, update);
 }
@@ -159,7 +159,7 @@ public Action Command_Rank(int client, int args)
 stock void GetRank(int client)
 {
 	char query[255];
-	Format(query, sizeof(query), "SELECT * FROM zrank ORDER BY points DESC;");
+	Format(query, sizeof(query), "SELECT a.*,b.rank FROM zrank a,(SELECT c.*,@rownum := @rownum + 1 AS rank FROM zrank c,(SELECT @rownum := 0) r ORDER BY(points) DESC) b WHERE a.SteamID = b.SteamID AND b.SteamID = '%s';", g_ZR_Rank_SteamID[client]);
 	
 	SQL_TQuery(db, SQL_GetRank, query, GetClientUserId(client));
 }
