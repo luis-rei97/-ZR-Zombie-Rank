@@ -80,7 +80,7 @@ public void SQL_NothingCallback(Handle owner, Handle hndl, const char[] error, a
 
 public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 {
-	int client, i = 0;
+	int client;
 	
 	if((client = GetClientOfUserId(data)) == 0)
 	{
@@ -92,20 +92,17 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 		LogError(error);
 		return;
 	}
-	g_MaxPlayers = SQL_GetRowCount(results);
 	
 	char SteamID[64];
 	
-	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
-	{
-		i++;
-		
+	if (SQL_HasResultSet(results) && SQL_FetchRow(results))
+	{		
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		
 		if(StrEqual(g_ZR_Rank_SteamID[client], SteamID, true))
 		{
-			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", i, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
-			break;
+			int rank = SQL_FetchInt(results, 5);
+			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", rank, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
 		}
 	}
 }
