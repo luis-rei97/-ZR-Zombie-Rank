@@ -7,6 +7,48 @@ public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadca
 	}
 	
 	g_ZR_Rank_PostInfect = false;
+	g_ZR_Rank_PostRound = false;
+	g_ZR_Rank_PostRoundTimer = false;
+	
+	if (roundTimer != null)
+	{
+		KillTimer(roundTimer);
+		roundTimer = null;
+	}
+	
+	roundTimer = CreateTimer(150.0, Round_Timer);
+}
+
+public Action Round_Timer(Handle timer)
+{
+	g_ZR_Rank_PostRoundTimer = true;
+	roundTimer = null;
+}
+
+public Action Event_RoundEnd(Handle event, const char[] name, bool dontBroadcast)
+{
+	g_ZR_Rank_PostRound = true;
+	
+	if (g_ZR_Rank_PostRoundTimer)
+	{
+		int winningTeam = GetEventInt(event, "winner");
+		if (g_ZR_Rank_Win_Human > 0 && winningTeam == 3)
+		{			
+			for (int i = 1; i <= MaxClients; i++)
+			{
+				if (IsValidClient(i) && IsPlayerAlive(i))
+				{
+					if (GetClientTeam(i) == 3)
+					{
+						CPrintToChat(i, "%s %t", g_ZR_Rank_Prefix, "Human Win", g_ZR_Rank_Win_Human);
+						g_ZR_Rank_Points[i] += g_ZR_Rank_Win_Human;
+					}
+				}
+			}
+		}
+	}
+	
+	return Plugin_Continue;
 }
 
 public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
@@ -19,7 +61,7 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(!IsValidClient(victim) || !IsValidClient(attacker) || !g_ZR_Rank_PostInfect || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	if(!IsValidClient(victim) || !IsValidClient(attacker) || !g_ZR_Rank_PostInfect || g_ZR_Rank_PostRound || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
 	{
 		return Plugin_Continue;
 	}
@@ -66,19 +108,34 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
-	if (!IsValidClient(victim) || !IsValidClient(attacker))
+	if (!IsValidClient(victim))
 		return Plugin_Continue;
 	
-	if (!IsPlayerAlive(attacker))
-		return Plugin_Continue;
-	
-	if(victim == attacker || !g_ZR_Rank_KillZombie || !g_ZR_Rank_PostInfect || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
+	if(!g_ZR_Rank_KillZombie || !g_ZR_Rank_PostInfect || g_ZR_Rank_PostRound || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
 	{
 		return Plugin_Continue;
 	}
 	
-	if(ZR_IsClientHuman(attacker))
+	//Human committed suicide
+	if ((GetClientTeam(victim) == 3) && ((victim == attacker) || !attacker))
 	{
+		if (g_ZR_Rank_Suicide_Human > 0)
+		{
+			g_ZR_Rank_Points[victim] -= g_ZR_Rank_Suicide_Human;
+			CPrintToChat(victim, "%s %t", g_ZR_Rank_Prefix, "Human Suicide", g_ZR_Rank_Suicide_Human);
+		}
+		return Plugin_Continue;
+	}
+	
+	if (!IsValidClient(attacker))
+		return Plugin_Continue;
+
+	if(GetClientTeam(attacker) == 3)
+	{
+		
+		if (!IsPlayerAlive(attacker))
+			return Plugin_Continue;
+			
 		if(GetClientTeam(victim) == 2)
 		{
 			char weapon[32];
