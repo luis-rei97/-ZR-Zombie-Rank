@@ -58,6 +58,11 @@ public void SQL_LoadPlayerCallback(Handle DB, Handle results, const char[] error
 		g_ZR_Rank_Points[client] = SQL_FetchInt(results, 2);
 		g_ZR_Rank_HumanInfects[client] = SQL_FetchInt(results, 3);
 		g_ZR_Rank_ZombieKills[client] = SQL_FetchInt(results, 4);
+		
+		DBResult status;
+		g_ZR_Rank_Place[client] = SQL_FetchInt(results, 5, status);
+		if (status != DBVal_Data)
+			SetFailState("Rank data not found in query (SQL_LoadPlayerCallback)");
 	}
 	else
 	{
@@ -101,8 +106,14 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 		
 		if(StrEqual(g_ZR_Rank_SteamID[client], SteamID, true))
 		{
-			int rank = SQL_FetchInt(results, 5);
-			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", rank, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
+			DBResult status;
+			
+			g_ZR_Rank_Place[client] = SQL_FetchInt(results, 5, status);
+			
+			if (status != DBVal_Data)
+				SetFailState("Rank data not found in query (SQL_GetRank)");
+			
+			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", g_ZR_Rank_Place[client], g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
 		}
 	}
 }
