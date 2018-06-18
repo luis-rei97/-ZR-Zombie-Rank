@@ -94,20 +94,44 @@
 		"de"		"Du hast {1} Punkt(e) verloren, weil du von einem Menschen getötet wurdest!"
 	}
 
+	"Human Suicide"
+	{
+		"#format"	"{1:d}"
+		"en"		"You lost {1} point(s) for committing suicide!"
+		"pt"		"Perdeste {1} ponto(s) por cometendo suicídio!"
+		"de"		"Du hast {1} Punkt(e) für Selbstmord verloren!"
+	}
+
+	"Human Win"
+	{
+		"#format"	"{1:d}"
+		"en"		"You won {1} point(s) for winning the round as a human!"
+		"pt"		"Ganhaste {1} ponto(s) por vencer a rodada como humano!"
+		"de"		"Du hast {1} Punkt(e) für den Gewinn der Runde als Mensch!"
+	}
+
 	"Infect Human"
 	{
 		"#format"	"{1:d}"
-		"en"		"You won {1} point(s) by infecting an human!"
+		"en"		"You won {1} point(s) for infecting a human!"
 		"pt"		"Ganhaste {1} ponto(s) por infetares um humano!"
 		"de"		"Du hast {1} Punkt(e) gewonnen, indem du einen Menschen infiziert hast!"
 	}
 
-	"Infected by Human"
+	"Infected by Zombie"
 	{
 		"#format"	"{1:d}"
-		"en"		"You lost {1} point(s) for being infected by an human!"
+		"en"		"You lost {1} point(s) for being infected by a zombie!"
 		"pt"		"Perdeste {1} ponto(s) por teres sido infetado por um humano!"
 		"de"		"Du hast {1} Punkt(e) verloren, weil du von einem Menschen infiziert wurdest!"
+	}
+
+	"Damage Bonus"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"You won {1} bonus point(s) for dealing {2} damage to zombies!"
+		"pt"		"Você foi recompensado com {1} ponto(s) por causar {2} dano a zumbis!"
+		"de"		"Du wurdest mit {1} Punkt(e) belohnt, um Zombies {2} Schaden zuzufügen!"
 	}
 
 	"Top Order By Points"
@@ -158,9 +182,9 @@
 	"Show Rank"
 	{
 		"#format" 	"{1:d},{2:d},{3:d},{4:d},{5:d}"
-		"en"		"You are in {1}/{2}, with {3} points, {4} humans infected and {5} zombies killed!"
-		"pt"		"Estás em {1}/{2}, com {3} pontos, {4} humanos infetados e {5} zombies mortos!"
-		"de"		"Du bist in {1}/{2}, mit {3} Punkten, {4} infizierten Menschen und {5} getöteten Zombies!"
+		"en"		"You are rank {1} of {2}, with {3} points, {4} humans infected and {5} zombies killed!"
+		"pt"		"Estás em {1} / {2}, com {3} pontos, {4} humanos infetados e {5} zombies mortos!"
+		"de"		"Du bist in {1} / {2}, mit {3} Punkten, {4} infizierten Menschen und {5} getöteten Zombies!"
 	}
 
 	"Show More Than X Players"
@@ -169,5 +193,13 @@
 		"en" 		"You can't show more than {1} players on top!"
 		"pt"		"Não podes ver mais de {1} jogadores de uma vez!"
 		"de" 		"Du kannst nicht mehr als {1} Top Spieler anzeigen!"
+	}
+
+	"Player Limit"
+	{
+		"#format"	"{1:d}"
+		"en" 		"System is disabled until there are at least {1} players"
+		"pt"		"O sistema está desativado até que haja pelo menos {1} jogadores"
+		"de" 		"Das System ist deaktiviert, bis mindestens {1} Spieler vorhanden sind"
 	}
 }
