@@ -113,7 +113,7 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 			if (status != DBVal_Data)
 				SetFailState("Rank data not found in query (SQL_GetRank)");
 			
-			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", g_ZR_Rank_Place[client], g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
+			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", g_ZR_Rank_Place[client], g_iMaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
 		}
 	}
 }
@@ -132,13 +132,10 @@ public void SQL_GetTop(Handle DB, Handle results, const char[] error, any data)
 		LogError(error);
 		return;
 	}
-	
-	g_MaxPlayers = SQL_GetRowCount(results);
 
 	char SteamID[64];
 	char Name[64];
 	char buffer[256];
-	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
 	
@@ -156,6 +153,20 @@ public void SQL_GetTop(Handle DB, Handle results, const char[] error, any data)
 	menu.Display(client, 0);
 }
 
+public void SQL_GetMaxPlayers(Handle DB, Handle results, const char[] error, any data)
+{
+	if (results == INVALID_HANDLE)
+	{
+		LogError(error);
+		return;
+	}
+	
+	if (SQL_HasResultSet(results) && SQL_FetchRow(results))
+	{
+		g_iMaxPlayers = SQL_FetchInt(results, 0);
+	}
+}
+
 public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error, any data)
 {
 	int client;
@@ -170,13 +181,10 @@ public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error,
 		LogError(error);
 		return;
 	}
-	
-	g_MaxPlayers = SQL_GetRowCount(results);
 
 	char SteamID[64];
 	char Name[64];
 	char buffer[256];
-	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
 	
@@ -208,13 +216,10 @@ public void SQL_GetTopInfectedHumans(Handle DB, Handle results, const char[] err
 		LogError(error);
 		return;
 	}
-	
-	g_MaxPlayers = SQL_GetRowCount(results);
 
 	char SteamID[64];
 	char Name[64];
 	char buffer[256];
-	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
 	
