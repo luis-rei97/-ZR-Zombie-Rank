@@ -27,8 +27,8 @@
 
 - <b>sm_rank</b> - It shows your positions in the rank and your total points;
 - <b>sm_top NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Points;
-- <b>sm_topzkills NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Zombies Killed;
-- <b>sm_topihumans NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Infected Humans;
+- <b>sm_topkills NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Zombies Killed;
+- <b>sm_topinfects NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Infected Humans;
 - <b>sm_resetrank_all</b> - It will reset all the players in the database (needs <b>ROOT FLAG</b> to have access)
 
 <h3>ConVars</h3>
@@ -47,6 +47,8 @@
 - <b>zr_rank_beinginfected</b> (Default: 1) - How many points you lost if you got infected by a zombie;
 - <b>zr_rank_beingkilled</b> (Default: 1) - How many points you lost if you get killed by an human;
 - <b>zr_rank_suicide_human</b> (Default: 1) - How many points humans lose for suiciding;
+- <b>zr_rank_damage_bonus</b> (Default: 500) - How much damage before awarding point bonus;
+- <b>zr_rank_damage_reward</b> (Default: 1) - How many points rewarded for hitting damage bonus;
 - <b>zr_rank_win_human</b> (Default: 3) - How many points humans get for winning the round;
 - <b>zr_rank_allow_warmup</b> (Default: 0) - Allow players to get or lose points during Warmup;
 - <b>zr_rank_prefix</b> (Default: [{purple}ZR Rank{default}] - Prefix to be used in every chat's plugin (You can use ColorVariables colors code);
