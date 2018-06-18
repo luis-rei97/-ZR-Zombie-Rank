@@ -19,7 +19,8 @@ ConVar g_CVAR_ZR_Rank_Suicide_Human;
 ConVar g_CVAR_ZR_Rank_Win_Human;
 ConVar g_CVAR_ZR_Rank_BeingKilled;
 ConVar g_CVAR_ZR_Rank_AllowWarmup;
-
+ConVar g_CVAR_ZR_Rank_Damage_Bonus;
+ConVar g_CVAR_ZR_Rank_Damage_Reward;
 
 // Variables to Store ConVar Values;
 
@@ -40,12 +41,15 @@ int g_ZR_Rank_BeingInfected;
 int g_ZR_Rank_Suicide_Human;
 int g_ZR_Rank_Win_Human;
 int g_ZR_Rank_BeingKilled;
+int g_ZR_Rank_Damage_Bonus;
+int g_ZR_Rank_Damage_Reward;
 
 bool g_ZR_Rank_PostInfect;
 bool g_ZR_Rank_PostRound;
 bool g_ZR_Rank_PostRoundTimer;
 
 // Stores the main points, that are given after some events;
+int g_iPlayerDamage[MAXPLAYERS + 1];
 int g_ZR_Rank_Place[MAXPLAYERS + 1];
 int g_ZR_Rank_Points[MAXPLAYERS + 1];
 int g_ZR_Rank_ZombieKills[MAXPLAYERS + 1];
@@ -53,7 +57,10 @@ int g_ZR_Rank_HumanInfects[MAXPLAYERS + 1];
 int g_ZR_Rank_NumPlayers = 0;
 char g_ZR_Rank_SteamID[MAXPLAYERS + 1][64];
 
-int g_MaxPlayers;
+float g_fCmdTime[MAXPLAYERS+1];
+
+int g_iMaxPlayers = 0;
+
 // Handle for the database;
 Handle db;
 
