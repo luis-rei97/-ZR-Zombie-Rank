@@ -10,13 +10,19 @@ public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadca
 	g_ZR_Rank_PostRound = false;
 	g_ZR_Rank_PostRoundTimer = false;
 	
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		g_iPlayerDamage[i] = 0;
+	}
+	
 	if (roundTimer != null)
 	{
 		KillTimer(roundTimer);
 		roundTimer = null;
 	}
 	
-	roundTimer = CreateTimer(150.0, Round_Timer);
+	// Time to wait before allowing humans to be awarded round end points
+	roundTimer = CreateTimer(180.0, Round_Timer);
 }
 
 public Action Round_Timer(Handle timer)
@@ -27,6 +33,7 @@ public Action Round_Timer(Handle timer)
 
 public Action Event_RoundEnd(Handle event, const char[] name, bool dontBroadcast)
 {
+	// Stop other point events until next round
 	g_ZR_Rank_PostRound = true;
 	
 	if (g_ZR_Rank_PostRoundTimer)
@@ -36,12 +43,26 @@ public Action Event_RoundEnd(Handle event, const char[] name, bool dontBroadcast
 		{			
 			for (int i = 1; i <= MaxClients; i++)
 			{
-				if (IsValidClient(i) && IsPlayerAlive(i))
+				if (IsValidClient(i))
 				{
+					// Award damage dealt as a human
+					if (g_iPlayerDamage[i] > 0 && g_ZR_Rank_Damage_Reward)
+					{
+						int remainder = (g_iPlayerDamage[i] / g_ZR_Rank_Damage_Bonus);
+						if (remainder > 0)
+						{
+							CPrintToChat(i, "%s %t", g_ZR_Rank_Prefix, "Damage Bonus", (remainder * g_ZR_Rank_Damage_Reward), g_iPlayerDamage[i]);
+							g_ZR_Rank_Points[i] += (remainder * g_ZR_Rank_Damage_Reward);
+						}
+					}
 					if (GetClientTeam(i) == 3)
 					{
-						CPrintToChat(i, "%s %t", g_ZR_Rank_Prefix, "Human Win", g_ZR_Rank_Win_Human);
-						g_ZR_Rank_Points[i] += g_ZR_Rank_Win_Human;
+						// Award them if they survived to the end
+						if (IsPlayerAlive(i))
+						{
+							CPrintToChat(i, "%s %t", g_ZR_Rank_Prefix, "Human Win", g_ZR_Rank_Win_Human);
+							g_ZR_Rank_Points[i] += g_ZR_Rank_Win_Human;
+						}
 					}
 				}
 			}
@@ -75,12 +96,12 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 		{
 			char weapon_name[100];
 			int weapon = GetEntPropEnt(attacker, Prop_Send, "m_hActiveWeapon");
+			int damage = event.GetInt("dmg_health");
+			g_iPlayerDamage[attacker] += damage;
 			GetEntityClassname(weapon, weapon_name, sizeof(weapon_name));
 			
 			if(StrEqual(weapon_name, "weapon_knife"))
 			{
-				int damage = event.GetInt("dmg_health");
-				
 				if(damage < 50 && g_ZR_Rank_StabZombie_Left > 0)
 				{
 					g_ZR_Rank_Points[attacker] += g_ZR_Rank_StabZombie_Left;
@@ -212,6 +233,8 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	
 	if (motherInfect)
 	{
+		if (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+			CPrintToChatAll("%s %t", g_ZR_Rank_Prefix, "Player Limit", g_ZR_Rank_MinPlayers);
 		g_ZR_Rank_PostInfect = true;
 		return;
 	}
@@ -222,8 +245,15 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	if (!IsPlayerAlive(attacker))
 		return;
 	
-	if(!g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	if(!g_ZR_Rank_InfectHuman && !g_ZR_Rank_BeingInfected)
 	{
+		return;
+	}
+	
+	if (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	{
+		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Player Limit", g_ZR_Rank_MinPlayers);
+		CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Player Limit", g_ZR_Rank_MinPlayers);
 		return;
 	}
 	
@@ -238,6 +268,6 @@ public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool
 	if(g_ZR_Rank_BeingInfected > 0)
 	{		
 		g_ZR_Rank_Points[client] -= g_ZR_Rank_BeingInfected;
-		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Infected by Human", g_ZR_Rank_BeingInfected);
+		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Infected by Zombie", g_ZR_Rank_BeingInfected);
 	}
 }
