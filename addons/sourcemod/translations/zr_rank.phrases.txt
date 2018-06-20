@@ -81,23 +81,15 @@
 	"Kill Zombie Normal"
 	{
 		"#format"	"{1:d}"
-		"en"		"You won {1} point(s) by killing a zombie!"
+		"en"		"You won {lime}{1} point(s){default} by killing a zombie!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie!"
 		"de"		"Du hast {1} Punkt(e) gewonnen, indem du einen Zombie getötet hast!"
-	}
-	
-	"Assist Zombie Kill"
-	{
-		"#format"	"{1:d}"
-		"en"		"You won {1} point(s) for a zombie kill assist!"
-		"pt"		"Você ganhou {1} ponto (s) por um auxiliar de matar zumbis!"
-		"de"		"Sie erhalten {1} Punkte für einen Zombie-Kill-Assist!"
 	}
 
 	"Killed by Human"
 	{
 		"#format"	"{1:d}"
-		"en"		"You lost {1} point(s) for being killed by an human!"
+		"en"		"You lost {lightred}{1} point(s){default} for being killed by an human!"
 		"pt"		"Perdeste {1} ponto(s) por teres sido morto por um humano!"
 		"de"		"Du hast {1} Punkt(e) verloren, weil du von einem Menschen getötet wurdest!"
 	}
@@ -105,7 +97,7 @@
 	"Human Suicide"
 	{
 		"#format"	"{1:d}"
-		"en"		"You lost {1} point(s) for committing suicide!"
+		"en"		"You lost {lightred}{1} point(s){default} for committing suicide!"
 		"pt"		"Perdeste {1} ponto(s) por cometendo suicídio!"
 		"de"		"Du hast {1} Punkt(e) für Selbstmord verloren!"
 	}
@@ -113,7 +105,7 @@
 	"Human Win"
 	{
 		"#format"	"{1:d}"
-		"en"		"You won {1} point(s) for winning the round as a human!"
+		"en"		"You won {lime}{1} point(s){default} for winning the round as a human!"
 		"pt"		"Ganhaste {1} ponto(s) por vencer a rodada como humano!"
 		"de"		"Du hast {1} Punkt(e) für den Gewinn der Runde als Mensch!"
 	}
@@ -121,7 +113,7 @@
 	"Infect Human"
 	{
 		"#format"	"{1:d}"
-		"en"		"You won {1} point(s) for infecting a human!"
+		"en"		"You won {lime}{1} point(s){default} for infecting a human!"
 		"pt"		"Ganhaste {1} ponto(s) por infetares um humano!"
 		"de"		"Du hast {1} Punkt(e) gewonnen, indem du einen Menschen infiziert hast!"
 	}
@@ -129,7 +121,7 @@
 	"Infected by Zombie"
 	{
 		"#format"	"{1:d}"
-		"en"		"You lost {1} point(s) for being infected by a zombie!"
+		"en"		"You lost {lightred}{1} point(s){default} for being infected by a zombie!"
 		"pt"		"Perdeste {1} ponto(s) por teres sido infetado por um humano!"
 		"de"		"Du hast {1} Punkt(e) verloren, weil du von einem Menschen infiziert wurdest!"
 	}
@@ -137,7 +129,7 @@
 	"Damage Bonus"
 	{
 		"#format"	"{1:d},{2:d}"
-		"en"		"You won {1} bonus point(s) for dealing {2} damage to zombies!"
+		"en"		"You won {lime}{1} bonus point(s){default} for dealing {2} damage to zombies!"
 		"pt"		"Você foi recompensado com {1} ponto(s) por causar {2} dano a zumbis!"
 		"de"		"Du wurdest mit {1} punkt(e) belohnt, um zombies {2} schaden zuzufügen!"
 	}
@@ -145,7 +137,7 @@
 	"Infect Bonus"
 	{
 		"#format"	"{1:d},{2:d}"
-		"en"		"You won {1} bonus point(s) for infecting {2} humans!"
+		"en"		"You won {lime}{1} bonus point(s){default} for infecting {2} humans!"
 		"pt"		"Você ganhou {1} ponto(s) de bônus por infectar {2} humanos!"
 		"de"		"Sie erhalten {1} Bonuspunkte für die Ansteckung von {2} Menschen!"
 	}
@@ -157,27 +149,11 @@
 		"de"	"[ZR] Rang Top (Sortierung nach Punkten)"
 	}
 
-	"X - Y Points"
-	{
-		"#format"	"{1:d},{2:s},{3:d}"
-		"en"		"[#{1}]{2} - {3} points"
-		"pt"		"[#{1}]{2} - {3} pontos"
-		"de"		"[#{1}]{2} - {3} Punkte"
-	}
-
 	"Top Order By Zombie Kills"
 	{
 		"en"	"[ZR] Rank Top (Order by Zombie Kills)"
 		"pt"	"[ZR] Rank Top (Ordenado por Zombies Mortos)"
 		"de"	"[ZR] Rang Top (Ordnung nach Zombie Kills)"
-	}
-
-	"X - Y Zombie Kills"
-	{
-		"#format"	"{1:d},{2:s},{3:d}"
-		"en"		"[#{1}]{2} - {3} Zombie Kills"
-		"pt"		"[#{1}]{2} - {3} Zombies Mortos"
-		"de"		"[#{1}]{2} - {3} Zombie Kills"
 	}
 
 	"Top Order By Human Infects"
@@ -187,6 +163,22 @@
 		"de"	"[ZR] Rang Top (Ordnung durch infizierte Menschen)"
 	}
 
+	"X - Y Points"
+	{
+		"#format"	"{1:d},{2:s},{3:d}"
+		"en"		"[#{1}]{2} - {3} points"
+		"pt"		"[#{1}]{2} - {3} pontos"
+		"de"		"[#{1}]{2} - {3} Punkte"
+	}
+	
+	"X - Y Zombie Kills"
+	{
+		"#format"	"{1:d},{2:s},{3:d}"
+		"en"		"[#{1}]{2} - {3} Zombie Kills"
+		"pt"		"[#{1}]{2} - {3} Zombies Mortos"
+		"de"		"[#{1}]{2} - {3} Zombie Kills"
+	}
+	
 	"X - Y Humans Infected"
 	{
 		"#format"	"{1:d},{2:s},{3:d}"
@@ -225,5 +217,20 @@
 		"en" 		"System is disabled until there are at least {1} players"
 		"pt"		"O sistema está desativado até que haja pelo menos {1} jogadores"
 		"de" 		"Das System ist deaktiviert, bis mindestens {1} Spieler vorhanden sind"
+	}
+	
+	"Disabled"
+	{
+		"en" 		"Point gain / loss is currently disabled on this map"
+		"pt"		"O ganho / perda pontual está atualmente desativado neste mapa"
+		"de" 		"Punktgewinn / -verlust ist derzeit auf dieser Karte deaktiviert"
+	}
+	
+	"Points Multiplier"
+	{
+		"#format"	"{1:d}"
+		"en" 		"This map currently has a {lime}{1}x point(s){default} multiplier"
+		"pt"		"Este mapa tem atualmente um {1}x multiplicador de pontos"
+		"de" 		"Diese Karte hat derzeit einen Multiplikator von {1}x Punkten"
 	}
 }
