@@ -40,16 +40,19 @@
 - <b>zr_rank_killzombie_knife</b> (Default: 5) - Number of points that you get when you kill a zombie with a knife (0 will disable it);
 - <b>zr_rank_killzombie_he</b> (Default: 3) - Number of points that you get when you kill a zombie with a He Grenade (0 will disable it);
 - <b>zr_rank_killzombie_smokeflashbang</b> (Default: 20) - Number of points that you get when you kill a zombie with a Smoke/Flashbang (0 will disable it);
-- <b>zr_rank_stabzombie_left</b> (Default: 1) - Number of points that you get when you stab a zombie with left mouse button (0 will disable it);  
-- <b>zr_rank_stabzombie_right</b> (Default: 1) - Number of points that you get when you stab a zombie with right mouse button (0 will disable it);
+- <b>zr_rank_stabzombie_left</b> (Default: 0) - Number of points that you get when you stab a zombie with left mouse button (0 will disable it);  
+- <b>zr_rank_stabzombie_right</b> (Default: 0) - Number of points that you get when you stab a zombie with right mouse button (0 will disable it);
 - <b>zr_rank_maxplayers_top</b> (Default: 50) - Max number of players that are shown in the top commands;
 - <b>zr_rank_minplayers</b> (Default: 4) - Minimum players for activating the rank system (0 will disable this function);
 - <b>zr_rank_beinginfected</b> (Default: 1) - How many points you lost if you got infected by a zombie;
 - <b>zr_rank_beingkilled</b> (Default: 1) - How many points you lost if you get killed by an human;
 - <b>zr_rank_suicide_human</b> (Default: 1) - How many points humans lose for suiciding;
-- <b>zr_rank_damage_bonus</b> (Default: 500) - How much damage before awarding point bonus;
+- <b>zr_rank_damage_bonus</b> (Default: 800) - How much damage before awarding point bonus;
 - <b>zr_rank_damage_reward</b> (Default: 1) - How many points rewarded for hitting damage bonus;
-- <b>zr_rank_win_human</b> (Default: 3) - How many points humans get for winning the round;
+- <b>zr_rank_infect_bonus</b> (Default: 3) - How many infects before awarding point bonus;
+- <b>zr_rank_infect_reward</b> (Default: 1) - How many points rewarded for infect bonus;
+- <b>zr_rank_win_human</b> (Default: 10) - How many points humans get for winning the round;
+- <b>zr_rank_multiplier</b> (Default: 3) - Multiply points received (from certain events) by this amount (0 to disable point gain);
 - <b>zr_rank_allow_warmup</b> (Default: 0) - Allow players to get or lose points during Warmup;
 - <b>zr_rank_prefix</b> (Default: [{purple}ZR Rank{default}] - Prefix to be used in every chat's plugin (You can use ColorVariables colors code);
 
