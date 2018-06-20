@@ -58,12 +58,18 @@ public void SQL_LoadPlayerCallback(Handle DB, Handle results, const char[] error
 		g_ZR_Rank_Points[client] = SQL_FetchInt(results, 2);
 		g_ZR_Rank_HumanInfects[client] = SQL_FetchInt(results, 3);
 		g_ZR_Rank_ZombieKills[client] = SQL_FetchInt(results, 4);
+		
+		DBResult status;
+		g_ZR_Rank_Place[client] = SQL_FetchInt(results, 5, status);
+		if (status != DBVal_Data)
+			SetFailState("Rank data not found in query (SQL_LoadPlayerCallback)");
 	}
 	else
 	{
 		char insert[256];
 		char playername[64];
 		GetClientName(client, playername, sizeof(playername));
+		SQL_EscapeString(db, playername, playername, sizeof(playername));
 		FormatEx(insert, 256, "INSERT INTO zrank (SteamID , playername, points, human_infects, zombie_kills) VALUES ('%s', '%s', %d, 0, 0);", g_ZR_Rank_SteamID[client], playername, g_ZR_Rank_StartPoints);
 		SQL_TQuery(db, SQL_NothingCallback, insert);
 	}
@@ -73,14 +79,14 @@ public void SQL_NothingCallback(Handle owner, Handle hndl, const char[] error, a
 {
 	if (hndl == INVALID_HANDLE)
 	{
-		LogError("[RankMe] Query Fail: %s", error);
+		LogError("Query Fail: %s (SQL_NothingCallback)", error);
 		return;
 	}
 }
 
 public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 {
-	int client, i = 0;
+	int client;
 	
 	if((client = GetClientOfUserId(data)) == 0)
 	{
@@ -92,20 +98,23 @@ public void SQL_GetRank(Handle DB, Handle results, const char[] error, any data)
 		LogError(error);
 		return;
 	}
-	g_MaxPlayers = SQL_GetRowCount(results);
 	
 	char SteamID[64];
 	
-	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
-	{
-		i++;
-		
+	if (SQL_HasResultSet(results) && SQL_FetchRow(results))
+	{		
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		
 		if(StrEqual(g_ZR_Rank_SteamID[client], SteamID, true))
 		{
-			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", i, g_MaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
-			break;
+			DBResult status;
+			
+			g_ZR_Rank_Place[client] = SQL_FetchInt(results, 5, status);
+			
+			if (status != DBVal_Data)
+				SetFailState("Rank data not found in query (SQL_GetRank)");
+			
+			CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show Rank", g_ZR_Rank_Place[client], g_iMaxPlayers, g_ZR_Rank_Points[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_ZombieKills[client]);
 		}
 	}
 }
@@ -124,28 +133,47 @@ public void SQL_GetTop(Handle DB, Handle results, const char[] error, any data)
 		LogError(error);
 		return;
 	}
-	
-	g_MaxPlayers = SQL_GetRowCount(results);
 
 	char SteamID[64];
 	char Name[64];
 	char buffer[256];
-	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Points");
 	menu.SetTitle(buffer);
 	
-	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
+	if (!SQL_HasResultSet(results))
+		return;
+	
+	int count = 1;
+	
+	while(SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Points", Name, g_ZR_Rank_Points[client]);
-		menu.AddItem(SteamID, buffer);
+		int points = SQL_FetchInt(results, 2);
+		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Points", count, Name, points);
+		menu.AddItem(SteamID, buffer, ITEMDRAW_DISABLED);
+		count++;
 	}
+	
 	menu.ExitButton = true;
 	menu.Display(client, 0);
+}
+
+public void SQL_GetMaxPlayers(Handle DB, Handle results, const char[] error, any data)
+{
+	if (results == INVALID_HANDLE)
+	{
+		LogError(error);
+		return;
+	}
+	
+	if (SQL_HasResultSet(results) && SQL_FetchRow(results))
+	{
+		g_iMaxPlayers = SQL_FetchInt(results, 0);
+	}
 }
 
 public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error, any data)
@@ -162,26 +190,31 @@ public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error,
 		LogError(error);
 		return;
 	}
-	
-	g_MaxPlayers = SQL_GetRowCount(results);
 
 	char SteamID[64];
 	char Name[64];
 	char buffer[256];
-	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Zombie Kills");
 	menu.SetTitle(buffer);
 	
-	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
+	if (!SQL_HasResultSet(results))
+		return;
+	
+	int count = 1;
+	
+	while(SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Zombie Kills", Name, g_ZR_Rank_ZombieKills[client]);
-		menu.AddItem(SteamID, buffer);
+		int kills = SQL_FetchInt(results, 4);
+		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Zombie Kills", count, Name, kills);
+		menu.AddItem(SteamID, buffer, ITEMDRAW_DISABLED);
+		count++;
 	}
+	
 	menu.ExitButton = true;
 	menu.Display(client, 0);
 }
@@ -190,7 +223,7 @@ public void SQL_GetTopInfectedHumans(Handle DB, Handle results, const char[] err
 {
 	int client;
 	
-	if((client = GetClientOfUserId(data)) == 0)
+	if ((client = GetClientOfUserId(data)) == 0)
 	{
 		return;
 	}
@@ -200,26 +233,31 @@ public void SQL_GetTopInfectedHumans(Handle DB, Handle results, const char[] err
 		LogError(error);
 		return;
 	}
-	
-	g_MaxPlayers = SQL_GetRowCount(results);
 
 	char SteamID[64];
 	char Name[64];
 	char buffer[256];
-	
 	
 	Menu menu = new Menu(Menu_Top10_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Human Infects");
 	menu.SetTitle(buffer);
 	
-	while(SQL_HasResultSet(results) && SQL_FetchRow(results))
+	if (!SQL_HasResultSet(results))
+		return;
+	
+	int count = 1;
+	
+	while(SQL_FetchRow(results))
 	{
 		SQL_FetchString(results, 0 , SteamID, sizeof(SteamID));
 		SQL_FetchString(results, 1, Name, sizeof(Name));
-		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Humans Infected", Name, g_ZR_Rank_ZombieKills[client]);
-		menu.AddItem(SteamID, buffer);
+		int infects = SQL_FetchInt(results, 3);
+		FormatEx(buffer, sizeof(buffer), "%t", "X - Y Humans Infected", count, Name, infects);
+		menu.AddItem(SteamID, buffer, ITEMDRAW_DISABLED);
+		count++;
 	}
+	
 	menu.ExitButton = true;
 	menu.Display(client, 0);
 }
@@ -228,7 +266,7 @@ public int Menu_Top10_Handler(Menu menu, MenuAction action, int client, int choi
 {
 	if (action == MenuAction_Select)
 	{
-		
+		delete menu;
 	}
 	else if (action == MenuAction_End)
 	{
