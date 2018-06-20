@@ -202,4 +202,19 @@
 		"pt"		"O sistema está desativado até que haja pelo menos {1} jogadores"
 		"de" 		"Das System ist deaktiviert, bis mindestens {1} Spieler vorhanden sind"
 	}
+	
+	"Disabled"
+	{
+		"en" 		"Point gain / loss is currently disabled on this map"
+		"pt"		"O ganho / perda pontual está atualmente desativado neste mapa"
+		"de" 		"Punktgewinn / -verlust ist derzeit auf dieser Karte deaktiviert"
+	}
+	
+	"Points Multiplier"
+	{
+		"#format"	"{1:d}"
+		"en" 		"This map currently has a {1}x points multiplier"
+		"pt"		"Este mapa tem atualmente um {1}x multiplicador de pontos"
+		"de" 		"Diese Karte hat derzeit einen Multiplikator von {1}x Punkten"
+	}
 }
