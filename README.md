@@ -34,6 +34,7 @@
 - <b>sm_resetrank_all</b> - It will reset all the players in the database (needs <b>ROOT FLAG</b> to have access)
 
 <h3>ConVars</h3>
+
 - <b>zr_rank_startpoints</b> (Default: 100) - Number of points that a new player starts;
 - <b>zr_rank_infecthuman</b> (Default: 1) - Number of points that you get when you infect an human (0 will disable it)
 - <b>zr_rank_killzombie</b> (Default: 1) - Number of points that you get when you kill a zombie (0 will disable it)
@@ -50,8 +51,8 @@
 - <b>zr_rank_allow_warmup</b> (Default: 0) - Allow players to get or lose points during Warmup;
 - <b>zr_rank_prefix</b> (Default: [{green}ZR Rank{default}] - Prefix to be used in every chat's plugin (You can use ColorVariables colors code);
 - <b>zr_rank_suicide</b> (Default: 0) - How many points a player lose when he suicides;
-- <b>zr_rank_roundwin_human (Default: 1) - How many points a player gets when he wins the round as an human;
-- <b>zr_rank_roundwin_zombie (Default: 1) - How many points a player gets when he wins the round as an zombie;
+- <b>zr_rank_roundwin_human</b> (Default: 1) - How many points a player gets when he wins the round as an human;
+- <b>zr_rank_roundwin_zombie</b (Default: 1) - How many points a player gets when he wins the round as an zombie;
 
 ```SourcePawn
 /*********************************************************
