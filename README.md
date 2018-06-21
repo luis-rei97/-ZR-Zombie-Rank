@@ -4,8 +4,9 @@
 <p>It has only MySQL Support for now, and it's still in beta, so it will be changed through time!</p>
 
 <h2>Requirements: </h2>
+
 - [Sourcemod](https://www.sourcemod.net/);
-- [Zombie Reloaded](https://forums.alliedmods.net/showthread.php?t=277597);
+- [Zombie Reloaded](https://forums.alliedmods.net/showthread.php?t=277597) <b>OR</b> [Zombie Plague](https://forums.alliedmods.net/showthread.php?t=290657);
 - [ColorVariables](https://forums.alliedmods.net/showthread.php?t=267743) (To Compile);
 
 <h3>MySQL</h3>
@@ -23,6 +24,7 @@
 ```
 
 <h3>Commands</h3>
+
 - <b>sm_rank</b> - It shows your positions in the rank and your total points;
 - <b>sm_top NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Points;
 - <b>sm_topkills NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Zombies Killed;
@@ -104,6 +106,7 @@ native bool ZR_Rank_SetPoints(int client, int points);
 
 
 <h3>To-Do List</h3>
+
 - Translations -> <b>DONE</b>;
 - Support for more than 10 players in the sm_top command; -> <b>DONE</b>
 - Lose points by being infected or killed; -> <b>DONE</b>
