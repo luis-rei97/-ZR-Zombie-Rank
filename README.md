@@ -52,7 +52,7 @@
 - <b>zr_rank_prefix</b> (Default: [{green}ZR Rank{default}] - Prefix to be used in every chat's plugin (You can use ColorVariables colors code);
 - <b>zr_rank_suicide</b> (Default: 0) - How many points a player lose when he suicides;
 - <b>zr_rank_roundwin_human</b> (Default: 1) - How many points a player gets when he wins the round as an human;
-- <b>zr_rank_roundwin_zombie</b (Default: 1) - How many points a player gets when he wins the round as an zombie;
+- <b>zr_rank_roundwin_zombie</b> (Default: 1) - How many points a player gets when he wins the round as an zombie;
 
 ```SourcePawn
 /*********************************************************
