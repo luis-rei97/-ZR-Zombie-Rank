@@ -1,6 +1,5 @@
 // Chat's main prefix;
 
-
 // ConVars
 ConVar g_CVAR_ZR_Rank_InfectHuman;
 ConVar g_CVAR_ZR_Rank_KillZombie;
@@ -17,7 +16,14 @@ ConVar g_CVAR_ZR_Rank_MinPlayers;
 ConVar g_CVAR_ZR_Rank_BeingInfected;
 ConVar g_CVAR_ZR_Rank_BeingKilled;
 ConVar g_CVAR_ZR_Rank_AllowWarmup;
+ConVar g_CVAR_ZR_Rank_Suicide;
+ConVar g_CVAR_ZR_Rank_RoundWin_Zombie;
+ConVar g_CVAR_ZR_Rank_RoundWin_Human;
 
+
+// Booleans for Optional Libraries
+bool ZombieReloaded;
+bool ZombiePlague;
 
 // Variables to Store ConVar Values;
 
@@ -36,6 +42,9 @@ int g_ZR_Rank_AllowWarmup;
 int g_ZR_Rank_MinPlayers;
 int g_ZR_Rank_BeingInfected;
 int g_ZR_Rank_BeingKilled;
+int g_ZR_Rank_Suicide;
+int g_ZR_Rank_RoundWin_Zombie;
+int g_ZR_Rank_RoundWin_Human;
 
 bool g_ZR_Rank_PostInfect;
 
@@ -43,6 +52,8 @@ bool g_ZR_Rank_PostInfect;
 int g_ZR_Rank_Points[MAXPLAYERS + 1];
 int g_ZR_Rank_ZombieKills[MAXPLAYERS + 1];
 int g_ZR_Rank_HumanInfects[MAXPLAYERS + 1];
+int g_ZR_Rank_RoundWins_Zombie[MAXPLAYERS + 1];
+int g_ZR_Rank_RoundWins_Human[MAXPLAYERS + 1];
 int g_ZR_Rank_NumPlayers = 0;
 char g_ZR_Rank_SteamID[MAXPLAYERS + 1][64];
 

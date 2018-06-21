@@ -19,7 +19,10 @@
 #include <sdkhooks>
 #include <sdktools>
 #include <cstrike>
+#undef REQUIRE_PLUGIN
 #include <zombiereloaded>
+#include <zombieplague>
+#define REQUIRE_PLUGIN
 #include <colorvariables>
 
 #pragma semicolon 1
@@ -27,6 +30,7 @@
 
 #include "zr_rank/variables.sp"
 #include "zr_rank/database.sp"
+#include "zr_rank/top_menu.sp"
 #include "zr_rank/events.sp"
 #include "zr_rank/natives.sp"
 
@@ -35,7 +39,7 @@ public Plugin myinfo =
 	name = "[ZR] Rank",
 	author = "Hallucinogenic Troll",
 	description = "Zombie Rank for Zombie Reloaded Servers",
-	version = "1.4",
+	version = "1.5",
 	url = "http://HallucinogenicTrollConfigs.com/"
 };
 
@@ -45,7 +49,7 @@ public void OnPluginStart()
 	SQL_TConnect(OnSQLConnect, "zr_rank");
 	
 	// ConVars
-	g_CVAR_ZR_Rank_StartPoints = CreateConVar("zr_rank_startpoints", "100", "How many points that a new player starts", _, true, 0.0, false);
+	g_CVAR_ZR_Rank_StartPoints 	= CreateConVar("zr_rank_startpoints", "100", "How many points that a new player starts", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_InfectHuman = CreateConVar("zr_rank_infecthuman", "1", "How many points you get when you infect an human (0 will disable it)", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_KillZombie = CreateConVar("zr_rank_killzombie", "1", "How many points you get when you kill a zombie (0 will disable it)", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_KillZombie_Headshot = CreateConVar("zr_rank_killzombie_headshot", "2", "How many points you get when you kill a zombie with an headshot", _, true, 0.0, false);
@@ -60,18 +64,24 @@ public void OnPluginStart()
 	g_CVAR_ZR_Rank_BeingInfected = CreateConVar("zr_rank_beinginfected", "1", "How many points you lost if you got infected by a zombie", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_BeingKilled = CreateConVar("zr_rank_beingkilled", "1", "How many points you lost if you get killed by an human", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_AllowWarmup = CreateConVar("zr_rank_allow_warmup", "0", "Allow players to get or lose points during Warmup", _, true, 0.0, true, 0.0);
-	
+	g_CVAR_ZR_Rank_Suicide = CreateConVar("zr_rank_suicide", "0", "How many points do you lose when you suicide (0 will disable it)", _, true, 0.0, false);
+	g_CVAR_ZR_Rank_RoundWin_Zombie = CreateConVar("zr_rank_roundwin_zombie", "1", "How many points you get by winning a round as a zombie", _, true, 0.0, false);
+	g_CVAR_ZR_Rank_RoundWin_Human = CreateConVar("zr_rank_roundwin_human", "1", "How many points you get by winning a round as an human", _, true, 0.0, false);
+
 	
 	// Events
 	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
 	HookEvent("player_death", Event_PlayerDeath, EventHookMode_Pre);
+	HookEvent("round_end", Event_RoundEnd, EventHookMode_PostNoCopy);
 	HookEvent("round_start",Event_RoundStart, EventHookMode_PostNoCopy);
 	
 	// Commands
 	RegConsoleCmd("sm_rank", Command_Rank, "Shows a player rank in the menu");
 	RegConsoleCmd("sm_top", Command_Top, "Shows the Top Players List, order by points");
-	RegConsoleCmd("sm_topzkills", Command_TopZombieKills, "Show the Top Players List, order by Zombie Kills");
-	RegConsoleCmd("sm_topihumans", Command_TopInfectedHumans, "Show the Top Players List, order by Infected Humans");
+	RegConsoleCmd("sm_topkills", Command_TopZombieKills, "Show the Top Players List, order by Zombie Kills");
+	RegConsoleCmd("sm_topinfects", Command_TopInfectedHumans, "Show the Top Players List, order by Infected Humans");
+	RegConsoleCmd("sm_humanwins", Command_TopWinRounds_Human, "Show the Top Players List, order by Round Wins as a Human");
+	RegConsoleCmd("sm_zombiewins", Command_TopWinRounds_Zombie, "Show the Top Players List, order by Round Wins as a Zombie");
 	RegAdminCmd("sm_resetrank_all", Command_ResetRank_All, ADMFLAG_ROOT, "Deletes all the players that are in the database");
 	
 	// Exec Config
@@ -87,6 +97,36 @@ public void OnPluginStart()
 		{
 			OnClientPostAdminCheck(i);
 		}
+	}
+}
+
+public void OnAllPluginsLoaded()
+{
+	ZombieReloaded = LibraryExists("zombiereloaded");
+	ZombiePlague = LibraryExists("zombieplague");
+}
+ 
+public void OnLibraryRemoved(const char[] name)
+{
+	if (StrEqual(name, "zombiereloaded"))
+	{
+		ZombieReloaded = false;
+	}
+	else if(StrEqual(name, "zombieplague"))
+	{
+		ZombiePlague = false;
+	}
+}
+ 
+public void OnLibraryAdded(const char[] name)
+{
+	if (StrEqual(name, "zombiereloaded"))
+	{
+		ZombieReloaded = true;
+	}
+	else if(StrEqual(name, "zombieplague"))
+	{
+		ZombiePlague = true;
 	}
 }
 
@@ -107,6 +147,9 @@ public void OnConfigsExecuted()
 	g_ZR_Rank_MinPlayers = g_CVAR_ZR_Rank_MinPlayers.IntValue;
 	g_ZR_Rank_BeingInfected = g_CVAR_ZR_Rank_BeingInfected.IntValue;
 	g_ZR_Rank_BeingKilled = g_CVAR_ZR_Rank_BeingKilled.IntValue;
+	g_ZR_Rank_Suicide = g_CVAR_ZR_Rank_Suicide.IntValue;
+	g_ZR_Rank_RoundWin_Zombie = g_CVAR_ZR_Rank_RoundWin_Zombie.IntValue;
+	g_ZR_Rank_RoundWin_Human = g_CVAR_ZR_Rank_RoundWin_Human.IntValue;
 }
 
 public void OnClientPostAdminCheck(int client)
@@ -114,6 +157,8 @@ public void OnClientPostAdminCheck(int client)
 	g_ZR_Rank_Points[client] = g_ZR_Rank_StartPoints;
 	g_ZR_Rank_ZombieKills[client] = 0;
 	g_ZR_Rank_HumanInfects[client] = 0;
+	g_ZR_Rank_RoundWins_Zombie[client] = 0;
+	g_ZR_Rank_RoundWins_Human[client] = 0;
 	g_ZR_Rank_NumPlayers++;
 	
 	LoadPlayerInfo(client);
@@ -127,12 +172,12 @@ public void OnClientDisconnect(int client)
 	}
 	
 	g_ZR_Rank_NumPlayers--;
-	char update[256];
+	char update[512];
 	char playername[64];
 	GetClientName(client, playername, sizeof(playername));
 	GetClientAuthId(client, AuthId_Steam3, g_ZR_Rank_SteamID[client], sizeof(g_ZR_Rank_SteamID[]));
 	SQL_EscapeString(db, playername, playername, sizeof(playername));
-	FormatEx(update, 256, "UPDATE  zrank SET playername = '%s', points =  %i , human_infects = %i, zombie_kills = %i WHERE  SteamID = '%s';", playername, g_ZR_Rank_Points[client], g_ZR_Rank_ZombieKills[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_SteamID[client]);
+	FormatEx(update, sizeof(update), "UPDATE  zrank SET playername = '%s', points =  %i , human_infects = %i, zombie_kills = %i, roundwins_zombie = %i, roundwins_human = %i WHERE  SteamID = '%s';", playername, g_ZR_Rank_Points[client], g_ZR_Rank_ZombieKills[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_RoundWins_Zombie[client], g_ZR_Rank_RoundWins_Human[client], g_ZR_Rank_SteamID[client]);
 	
 	SQL_TQuery(db, SQL_NothingCallback, update);
 }
@@ -162,96 +207,6 @@ stock void GetRank(int client)
 	Format(query, sizeof(query), "SELECT * FROM zrank ORDER BY points DESC;");
 	
 	SQL_TQuery(db, SQL_GetRank, query, GetClientUserId(client));
-}
-
-public Action Command_Top(int client, int args)
-{
-	int num = 0;
-	
-	if(args < 1)
-	{
-		num = 10;
-	}
-	else
-	{
-		char buffer[24];
-		GetCmdArg(1, buffer, sizeof(buffer));		
-		num = StringToInt(buffer);
-	}
-	
-	
-	if(g_ZR_Rank_MaxPlayers_Top < num)
-	{
-		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show More Than X Players", g_ZR_Rank_MaxPlayers_Top);
-		return Plugin_Continue;
-	}
-	
-	char query[255];
-	Format(query, sizeof(query), "SELECT * FROM zrank ORDER BY points DESC LIMIT %d;", num);
-	
-	SQL_TQuery(db, SQL_GetTop, query, GetClientUserId(client));
-	
-	return Plugin_Handled;
-}
-
-public Action Command_TopInfectedHumans(int client, int args)
-{
-	int num;
-	
-	if(args < 1)
-	{
-		num = 10;
-	}
-	else
-	{
-		char buffer[24];
-		GetCmdArg(1, buffer, sizeof(buffer));		
-		num = StringToInt(buffer);
-	}
-	
-	
-	if(num > g_ZR_Rank_MaxPlayers_Top)
-	{
-		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show More Than X Players", g_ZR_Rank_MaxPlayers_Top);
-		return Plugin_Continue;
-	}
-	
-	char query[255];
-	Format(query, sizeof(query), "SELECT * FROM zrank ORDER BY human_infects DESC LIMIT %d;", num);
-	
-	SQL_TQuery(db, SQL_GetTopInfectedHumans, query, GetClientUserId(client));
-	
-	return Plugin_Handled;
-}
-
-
-public Action Command_TopZombieKills(int client, int args)
-{
-	int num;
-	
-	if(args < 1)
-	{
-		num = 10;
-	}
-	else
-	{
-		char buffer[24];
-		GetCmdArg(1, buffer, sizeof(buffer));		
-		num = StringToInt(buffer);
-	}
-	
-	if(num > g_ZR_Rank_MaxPlayers_Top)
-	{
-		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Show More Than X Players", g_ZR_Rank_MaxPlayers_Top);
-		return Plugin_Continue;
-	}
-	
-	char query[255];
-	Format(query, sizeof(query), "SELECT * FROM zrank ORDER BY zombie_kills DESC LIMIT %d;", num);
-	
-	SQL_TQuery(db, SQL_GetTopZombieKills, query, GetClientUserId(client));
-	
-	return Plugin_Handled;
 }
 
 public Action Command_ResetRank_All(int client, int args)

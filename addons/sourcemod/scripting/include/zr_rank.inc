@@ -29,6 +29,22 @@ native int ZR_Rank_GetZombieKills(int client);
 native int ZR_Rank_GetHumanInfects(int client);
 
 /*********************************************************
+ * Get's the number of a player's Round Wins as Zombie
+ *
+ * @param client		The client to get the round wins
+ * @return				The number of round wins		
+ *********************************************************/
+native int ZR_Rank_GetRoundWins_Zombie(int client);
+
+/*********************************************************
+ * Get's the number of a player's Round Wins as Human
+ *
+ * @param client		The client to get the round wins
+ * @return				The number of round wins		
+ *********************************************************/
+native int ZR_Rank_GetRoundWins_Human(int client);
+
+/*********************************************************
  * Sets points to a certain player
  *
  * @param client		The client to get the points

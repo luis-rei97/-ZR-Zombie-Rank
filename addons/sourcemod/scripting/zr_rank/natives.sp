@@ -4,10 +4,31 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("ZR_Rank_SetPoints", Native_ZR_Rank_SetPoints);
 	CreateNative("ZR_Rank_GetZombieKills", Native_ZR_Rank_GetZombieKills);
 	CreateNative("ZR_Rank_GetHumanInfects", Native_ZR_Rank_GetHumanInfects);
+	CreateNative("ZR_Rank_GetRoundWins_Zombie", Native_ZR_Rank_GetRoundWins_Zombie);
+	CreateNative("ZR_Rank_GetRoundWins_Human", Native_ZR_Rank_GetRoundWins_Human);
+	
+	MarkNativeAsOptional("ZR_IsClientHuman");
+	MarkNativeAsOptional("ZR_IsClientZombie");
+	MarkNativeAsOptional("ZP_IsPlayerHuman");
+	MarkNativeAsOptional("ZP_IsPlayerZombie");
 
 	RegPluginLibrary("zr_rank");
 	
 	return APLRes_Success;
+}
+
+public int Native_ZR_Rank_GetRoundWins_Human(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	
+	return g_ZR_Rank_RoundWins_Human[client];
+}
+
+public int Native_ZR_Rank_GetRoundWins_Zombie(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	
+	return g_ZR_Rank_RoundWins_Zombie[client];
 }
 
 public int Native_ZR_Rank_GetPoints(Handle plugin, int numParams)

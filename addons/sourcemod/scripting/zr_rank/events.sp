@@ -1,6 +1,6 @@
-public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadcast)
+public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 {
-	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	if(!g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
 	{
 		CPrintToChatAll("%s %t", g_ZR_Rank_Prefix, "Warmup End");
 		return;
@@ -9,9 +9,43 @@ public Action Event_RoundStart(Handle event, const char[] name, bool dontBroadca
 	g_ZR_Rank_PostInfect = false;
 }
 
+public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
+{
+	int winner = event.GetInt("winner");
+	
+	for (int i = 1; i < MaxClients; i++)
+	{
+		if(IsClientConnected(i) && IsClientInGame(i) && IsPlayerAlive(i))
+		{
+			if(winner == 2)
+			{
+				if((ZombieReloaded && ZR_IsClientZombie(i)) || (ZombiePlague && ZP_IsPlayerZombie(i)))
+				{
+					if(g_ZR_Rank_RoundWin_Zombie > 0)
+					{
+						g_ZR_Rank_Points[i] += g_ZR_Rank_RoundWin_Zombie;
+						CPrintToChat(i, "%s %t", g_ZR_Rank_Prefix, "Won Round As Zombie", g_ZR_Rank_RoundWin_Zombie);
+					}
+				}
+			}
+			else if(winner == 3)
+			{
+				if((ZombieReloaded && ZR_IsClientHuman(i)) || (ZombiePlague && ZP_IsPlayerHuman(i))) 
+				{
+					if(g_ZR_Rank_RoundWin_Human > 0)
+					{
+						g_ZR_Rank_Points[i] += g_ZR_Rank_RoundWin_Human;
+						CPrintToChat(i, "%s %t", g_ZR_Rank_Prefix, "Won Round As Human", g_ZR_Rank_RoundWin_Human);
+					}
+				}
+			}
+		}
+	}
+}
+
 public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
-	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	if(!g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
 	{
 		return Plugin_Continue;
 	}
@@ -27,7 +61,7 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 	if (!IsPlayerAlive(attacker))
 		return Plugin_Continue;
 	
-	if(ZR_IsClientHuman(attacker))
+	if((ZombieReloaded && ZR_IsClientHuman(attacker)) || (ZombiePlague && ZP_IsPlayerHuman(attacker)))
 	{
 		if(GetClientTeam(victim) == 2)
 		{
@@ -58,7 +92,7 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 
 public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
 {
-	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	if(!g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
 	{
 		return Plugin_Continue;
 	}
@@ -67,17 +101,27 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	int victim = GetClientOfUserId(event.GetInt("userid"));
 	
 	if (!IsValidClient(victim) || !IsValidClient(attacker))
-		return Plugin_Continue;
-	
-	if (!IsPlayerAlive(attacker))
-		return Plugin_Continue;
-	
-	if(victim == attacker || !g_ZR_Rank_KillZombie || !g_ZR_Rank_PostInfect || (g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers))
 	{
 		return Plugin_Continue;
 	}
 	
-	if(ZR_IsClientHuman(attacker))
+	if(victim == attacker)
+	{
+		if(g_ZR_Rank_Suicide > 0)
+		{
+			g_ZR_Rank_Points[attacker] -= g_ZR_Rank_Suicide;
+			CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Lost Points By Suicide", g_ZR_Rank_Suicide);
+		}
+		
+		return Plugin_Continue;
+	}
+	
+	if (!IsPlayerAlive(attacker))
+	{
+		return Plugin_Continue;		
+	}
+	
+	if((ZombieReloaded && ZR_IsClientHuman(attacker)) || (ZombiePlague && ZP_IsPlayerHuman(attacker)))
 	{
 		if(GetClientTeam(victim) == 2)
 		{
@@ -146,9 +190,42 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	return Plugin_Continue;
 }
 
+public void ZP_OnClientInfected(int client, int attacker)
+{
+	if(!g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	{
+		return;
+	}
+
+	if (!IsValidClient(client) || !IsValidClient(attacker))
+		return;
+	
+	if (!IsPlayerAlive(attacker))
+		return;
+	
+	if(!g_ZR_Rank_InfectHuman || g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	{
+		return;
+	}
+	
+	if(g_ZR_Rank_InfectHuman > 0)
+	{
+		g_ZR_Rank_Points[attacker] += g_ZR_Rank_InfectHuman;
+		CPrintToChat(attacker, "%s %t", g_ZR_Rank_Prefix, "Infect Human", g_ZR_Rank_InfectHuman);
+	}
+	
+	g_ZR_Rank_HumanInfects[attacker]++;
+	
+	if(g_ZR_Rank_BeingInfected > 0)
+	{		
+		g_ZR_Rank_Points[client] -= g_ZR_Rank_BeingInfected;
+		CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Infected by Human", g_ZR_Rank_BeingInfected);
+	}
+}
+
 public int ZR_OnClientInfected(int client, int attacker, bool motherInfect, bool respawnOverride, bool respawn)
 {
-	if(g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
+	if(!g_ZR_Rank_AllowWarmup && (GameRules_GetProp("m_bWarmupPeriod") == 1))
 	{
 		return;
 	}
