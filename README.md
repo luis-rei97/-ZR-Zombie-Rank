@@ -10,7 +10,7 @@
 - [ColorVariables](https://forums.alliedmods.net/showthread.php?t=267743) (To Compile);
 
 <h3>MySQL</h3>
-<p>Add this to your databases.cfg in <i>addons/sourcemod/configs</i> and change it as you need.
+<p>Edit databases.cfg in <i>addons/sourcemod/configs</i> and add this with the respective stuff to add.
 
 ```
 "zr_rank"
@@ -22,6 +22,11 @@
   "pass"      "USERNAME_PASSWORD"
 }
 ```
+
+<h3>Installation</h3>
+
+1. Put the file <b>zr_rank.smx</b> in <i>addons/sourcemod/plugins</i>;
+2. Put the file <b>zr_rank.phrases.txt</b> in <i>addons/sourcemod/translations</i>
 
 <h3>Commands</h3>
 
@@ -53,6 +58,8 @@
 - <b>zr_rank_suicide</b> (Default: 0) - How many points a player lose when he suicides;
 - <b>zr_rank_roundwin_human</b> (Default: 1) - How many points a player gets when he wins the round as an human;
 - <b>zr_rank_roundwin_zombie</b> (Default: 1) - How many points a player gets when he wins the round as an zombie;
+
+<h3>API:</h3>
 
 ```SourcePawn
 /*********************************************************
