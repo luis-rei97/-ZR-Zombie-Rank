@@ -1,7 +1,6 @@
-<h1>[ZR] Simple Rank System</h1>
+<h1>[ZR/ZP] Rank System</h1>
 
-<p>A simple rank system destined to servers with the Zombie Reloaded Plugin.</p>
-<p>It has only MySQL Support for now, and it's still in beta, so it will be changed through time!</p>
+<p>A simple rank system destined to servers with any plugins related to the Zombie Gamemode (that is supported currently).</p>
 
 <h2>Requirements: </h2>
 
@@ -10,7 +9,7 @@
 - [ColorVariables](https://forums.alliedmods.net/showthread.php?t=267743) (To Compile);
 
 <h3>MySQL</h3>
-<p>Edit databases.cfg in <i>addons/sourcemod/configs</i> and add this with the respective stuff to add.
+<p>Add this to your databases.cfg in <i>addons/sourcemod/configs</i> and change it as you need.
 
 ```
 "zr_rank"
@@ -58,8 +57,6 @@
 - <b>zr_rank_suicide</b> (Default: 0) - How many points a player lose when he suicides;
 - <b>zr_rank_roundwin_human</b> (Default: 1) - How many points a player gets when he wins the round as an human;
 - <b>zr_rank_roundwin_zombie</b> (Default: 1) - How many points a player gets when he wins the round as an zombie;
-
-<h3>API:</h3>
 
 ```SourcePawn
 /*********************************************************
@@ -112,6 +109,9 @@ native int ZR_Rank_GetRoundWins_Human(int client);
 native bool ZR_Rank_SetPoints(int client, int points);
 ```
 
+<h3>Changelog</h3>
+
+<p>To see the full changelog, check the CHANGELOG.md file -> https://github.com/hallucinogenic/-ZR-Zombie-Rank/blob/master/CHANGELOG.md</p>
 
 <h3>To-Do List</h3>
 
