@@ -6,6 +6,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("ZR_Rank_GetHumanInfects", Native_ZR_Rank_GetHumanInfects);
 	CreateNative("ZR_Rank_GetRoundWins_Zombie", Native_ZR_Rank_GetRoundWins_Zombie);
 	CreateNative("ZR_Rank_GetRoundWins_Human", Native_ZR_Rank_GetRoundWins_Human);
+	CreateNative("ZR_Rank_ResetPlayer", Native_ZR_Rank_ResetPlayer);
 	
 	MarkNativeAsOptional("ZR_IsClientHuman");
 	MarkNativeAsOptional("ZR_IsClientZombie");
@@ -60,4 +61,11 @@ public int Native_ZR_Rank_SetPoints(Handle plugin, int numParams)
 	g_ZR_Rank_Points[client] = points;
 	
 	return view_as<int>(points);
+}
+
+public int Native_ZR_Rank_ResetPlayer(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	
+	ResetRank(client);
 }

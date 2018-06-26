@@ -11,6 +11,12 @@ public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcas
 
 public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
+	if(g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	{
+		return;
+	}
+	
+	
 	int winner = event.GetInt("winner");
 	
 	for (int i = 1; i < MaxClients; i++)

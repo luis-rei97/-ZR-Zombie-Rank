@@ -49,6 +49,14 @@ native int ZR_Rank_GetRoundWins_Human(int client);
  *
  * @param client		The client to get the points
  * @param points		Number of points to set
- * @return				The number of points	
+ * @noreturn	
  *********************************************************/
 native bool ZR_Rank_SetPoints(int client, int points);
+
+/*********************************************************
+ * Reset a Player's Stats
+ *
+ * @param client		The client to reset the data
+ * @noreturn
+ *********************************************************/
+native bool ZR_Rank_ResetPlayer(int client);
