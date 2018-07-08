@@ -1,7 +1,7 @@
 <h1>[ZR/ZP] Rank System - Changelog</h1>
 
 <p>Just to note every change that was made since the plugin's release.</p>
-<p>If you want to see every function that the plugin has, read the README.md file -> https://github.com/hallucinogenic/-ZR-Zombie-Rank/blob/master/README.md</p>
+<p>If you want to see every function that the plugin has, read the [README](../README.md)  file;</p>
 
 <h2>Version 1.0 </h2>
 
@@ -64,8 +64,14 @@
 - Renamed the command <b>sm_topihumans</b> to <b>sm_topinfects</b>;
 - Added support for <b>[Zombie Plague](https://forums.alliedmods.net/showthread.php?t=290657)</b> (Not sure if it works 100%, only in theory);
 
+<h2>Version 1.6</h2>
 
+- Added a new Command: <b>sm_mystats</b> - Show every stat that the player has in the database;
+- Added a new Command: <b>sm_resetmyrank</b> - It lets a player delete his rank by himself;
+- Added a new Native: <b>ZR_Rank_ResetPlayer</b> -> It resets the data of a certain player;
+- Besides Console Commands now it hooks the same commands in chat (Ex: Instead of "!rank", you can write "rank" as well, only works currently for "rank" and "mystats");
+- Added a new CVAR: <b>zr_rank_inactive_days</b> (Default: 30) - It resets a player database when he is not connected from at least X days;
 
-
-
-
+- Added a message when a player joins the server and reaches the minimum of players to enable the rank;
+- Added a message when a player leaves the server and it reaches a value less than the minimum of players to enable the rank;
+- Now it doesn't give points when humans or zombies win the round, if the server doesn't have the minimum players set by the CVAR zr_rank_minplayers;

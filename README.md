@@ -35,7 +35,9 @@
 - <b>sm_topinfects NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Infected Humans;
 - <b>sm_humanwins NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Round Wins as Human;
 - <b>sm_zombiewins NUMBER</b> - It shows the Top NUMBER players listed in the database, order by Round Wins as Zombie;
-- <b>sm_resetrank_all</b> - It will reset all the players in the database (needs <b>ROOT FLAG</b> to have access)
+- <b>sm_resetrank_all</b> - It will reset all the players in the database (needs <b>ROOT FLAG</b> to have access);
+- <b>sm_mystats</b> - Show every stat that you the player has in the database;
+- <b>sm_resetmyrank</b> - It lets a player delete his rank by himself;
 
 <h3>ConVars</h3>
 
@@ -57,6 +59,7 @@
 - <b>zr_rank_suicide</b> (Default: 0) - How many points a player lose when he suicides;
 - <b>zr_rank_roundwin_human</b> (Default: 1) - How many points a player gets when he wins the round as an human;
 - <b>zr_rank_roundwin_zombie</b> (Default: 1) - How many points a player gets when he wins the round as an zombie;
+- <b>zr_rank_inactive_days</b> (Default: 30) - It resets a player database when he is not connected from at least X days;
 
 ```SourcePawn
 /*********************************************************
@@ -107,6 +110,14 @@ native int ZR_Rank_GetRoundWins_Human(int client);
  * @return				The number of points	
  *********************************************************/
 native bool ZR_Rank_SetPoints(int client, int points);
+
+/*********************************************************
+ * Reset a Player's Stats
+ *
+ * @param client		The client to reset the data
+ * @noreturn
+ *********************************************************/
+native bool ZR_Rank_ResetPlayer(int client);
 ```
 
 <h3>Changelog</h3>

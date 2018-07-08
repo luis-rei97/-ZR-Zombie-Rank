@@ -1,6 +1,6 @@
 /* [CS:GO] Zombie Reloaded Rank
  *
- *  Copyright (C) 2017 Hallucinogenic Troll
+ *  Copyright (C) 2018 Hallucinogenic Troll
  * 
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -29,17 +29,17 @@
 #pragma newdecls required
 
 #include "zr_rank/variables.sp"
+#include "zr_rank/commands.sp"
 #include "zr_rank/database.sp"
-#include "zr_rank/top_menu.sp"
 #include "zr_rank/events.sp"
 #include "zr_rank/natives.sp"
 
 public Plugin myinfo =
 {
-	name = "[ZR] Rank",
+	name = "[ZR/ZP] Rank",
 	author = "Hallucinogenic Troll",
-	description = "Zombie Rank for Zombie Reloaded Servers",
-	version = "1.5",
+	description = "Rank Specified for Zombie Reloaded or Zombie Plague Servers",
+	version = "1.6",
 	url = "http://HallucinogenicTrollConfigs.com/"
 };
 
@@ -67,7 +67,7 @@ public void OnPluginStart()
 	g_CVAR_ZR_Rank_Suicide = CreateConVar("zr_rank_suicide", "0", "How many points do you lose when you suicide (0 will disable it)", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_RoundWin_Zombie = CreateConVar("zr_rank_roundwin_zombie", "1", "How many points you get by winning a round as a zombie", _, true, 0.0, false);
 	g_CVAR_ZR_Rank_RoundWin_Human = CreateConVar("zr_rank_roundwin_human", "1", "How many points you get by winning a round as an human", _, true, 0.0, false);
-
+	g_CVAR_ZR_Rank_Inactive_Days = CreateConVar("zr_rank_inactive_days", "30", "How many days a player needs to be inactive and deleted from the database (0 will disable it)", _, true, 0.0, false);
 	
 	// Events
 	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
@@ -75,22 +75,29 @@ public void OnPluginStart()
 	HookEvent("round_end", Event_RoundEnd, EventHookMode_PostNoCopy);
 	HookEvent("round_start",Event_RoundStart, EventHookMode_PostNoCopy);
 	
-	// Commands
+	// Normal Commands
 	RegConsoleCmd("sm_rank", Command_Rank, "Shows a player rank in the menu");
+	RegConsoleCmd("sm_mystats", Command_MyStats, "Shows all the stats of a player");
 	RegConsoleCmd("sm_top", Command_Top, "Shows the Top Players List, order by points");
 	RegConsoleCmd("sm_topkills", Command_TopZombieKills, "Show the Top Players List, order by Zombie Kills");
 	RegConsoleCmd("sm_topinfects", Command_TopInfectedHumans, "Show the Top Players List, order by Infected Humans");
 	RegConsoleCmd("sm_humanwins", Command_TopWinRounds_Human, "Show the Top Players List, order by Round Wins as a Human");
 	RegConsoleCmd("sm_zombiewins", Command_TopWinRounds_Zombie, "Show the Top Players List, order by Round Wins as a Zombie");
+	RegConsoleCmd("sm_resetmyrank", Command_ResetMyRank, "It lets a player reset his rank all by himself");
+	
+	// Admin Commands
 	RegAdminCmd("sm_resetrank_all", Command_ResetRank_All, ADMFLAG_ROOT, "Deletes all the players that are in the database");
 	
 	// Exec Config
 	AutoExecConfig(true, "zr_rank", "zr_rank");
 	
+	// Translations
 	LoadTranslations("zr_rank.phrases");
 	
-	//Late Load
+	
+	// Let's iniciate to 0, just to be sure;
 	g_ZR_Rank_NumPlayers = 0;
+	
 	for (int i = 1; i <= MaxClients; i++)
 	{
 		if (IsClientInGame(i))
@@ -150,6 +157,7 @@ public void OnConfigsExecuted()
 	g_ZR_Rank_Suicide = g_CVAR_ZR_Rank_Suicide.IntValue;
 	g_ZR_Rank_RoundWin_Zombie = g_CVAR_ZR_Rank_RoundWin_Zombie.IntValue;
 	g_ZR_Rank_RoundWin_Human = g_CVAR_ZR_Rank_RoundWin_Human.IntValue;
+	g_ZR_Rank_Inactive_Days = g_CVAR_ZR_Rank_Inactive_Days.IntValue;
 }
 
 public void OnClientPostAdminCheck(int client)
@@ -160,6 +168,11 @@ public void OnClientPostAdminCheck(int client)
 	g_ZR_Rank_RoundWins_Zombie[client] = 0;
 	g_ZR_Rank_RoundWins_Human[client] = 0;
 	g_ZR_Rank_NumPlayers++;
+	
+	if(g_ZR_Rank_NumPlayers == g_ZR_Rank_MinPlayers)
+	{
+		CPrintToChatAll("%s %t", g_ZR_Rank_Prefix, "Currently Min Players", g_ZR_Rank_MinPlayers);
+	}
 	
 	LoadPlayerInfo(client);
 }
@@ -172,14 +185,28 @@ public void OnClientDisconnect(int client)
 	}
 	
 	g_ZR_Rank_NumPlayers--;
+	
+	if(g_ZR_Rank_NumPlayers < g_ZR_Rank_MinPlayers)
+	{
+		CPrintToChatAll("%s %t", g_ZR_Rank_Prefix, "Currently Not Min Players", g_ZR_Rank_MinPlayers);
+	}
+	
 	char update[512];
 	char playername[64];
 	GetClientName(client, playername, sizeof(playername));
 	GetClientAuthId(client, AuthId_Steam3, g_ZR_Rank_SteamID[client], sizeof(g_ZR_Rank_SteamID[]));
 	SQL_EscapeString(db, playername, playername, sizeof(playername));
-	FormatEx(update, sizeof(update), "UPDATE  zrank SET playername = '%s', points =  %i , human_infects = %i, zombie_kills = %i, roundwins_zombie = %i, roundwins_human = %i WHERE  SteamID = '%s';", playername, g_ZR_Rank_Points[client], g_ZR_Rank_ZombieKills[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_RoundWins_Zombie[client], g_ZR_Rank_RoundWins_Human[client], g_ZR_Rank_SteamID[client]);
+	FormatEx(update, sizeof(update), "UPDATE  zrank SET playername = '%s', points =  %i , human_infects = %i, zombie_kills = %i, roundwins_zombie = %i, roundwins_human = %i, time = %d WHERE  SteamID = '%s';", playername, g_ZR_Rank_Points[client], g_ZR_Rank_ZombieKills[client], g_ZR_Rank_HumanInfects[client], g_ZR_Rank_RoundWins_Zombie[client], g_ZR_Rank_RoundWins_Human[client], GetTime(), g_ZR_Rank_SteamID[client]);
 	
 	SQL_TQuery(db, SQL_NothingCallback, update);
+}
+
+public void DeletePlayerData()
+{
+	char buffer[1024];
+	int now = GetTime();
+	FormatEx(buffer, sizeof(buffer), "DELETE FROM zrank WHERE time < (%d - (%d * 86400));", now, g_ZR_Rank_Inactive_Days);
+	SQL_TQuery(db, SQL_NothingCallback, buffer);
 }
 
 public void LoadPlayerInfo(int client)
@@ -189,16 +216,9 @@ public void LoadPlayerInfo(int client)
 	GetClientAuthId(client, AuthId_Steam3, g_ZR_Rank_SteamID[client], sizeof(g_ZR_Rank_SteamID[]));
 	if(db != INVALID_HANDLE)
 	{
-		Format(buffer, sizeof(buffer), "SELECT * FROM zrank WHERE SteamID = '%s';", g_ZR_Rank_SteamID[client]);
+		FormatEx(buffer, sizeof(buffer), "SELECT * FROM zrank WHERE SteamID = '%s';", g_ZR_Rank_SteamID[client]);
 		SQL_TQuery(db, SQL_LoadPlayerCallback, buffer, client);
 	}
-}
-
-public Action Command_Rank(int client, int args)
-{
-	GetRank(client);
-	
-	return Plugin_Handled;
 }
 
 stock void GetRank(int client)
@@ -209,25 +229,16 @@ stock void GetRank(int client)
 	SQL_TQuery(db, SQL_GetRank, query, GetClientUserId(client));
 }
 
-public Action Command_ResetRank_All(int client, int args)
+stock void ResetRank(int client)
 {
 	char query[255];
-	Format(query, sizeof(query), "TRUNCATE TABLE zrank;");
+	Format(query, sizeof(query), "DELETE FROM zrank WHERE SteamID = '%s';", g_ZR_Rank_SteamID[client]);
 
 	SQL_TQuery(db, SQL_NothingCallback, query);
 	
-	for (int i = 1; i < MaxClients; i++)
-	{
-		if(IsClientInGame(i))
-		{
-			OnClientPostAdminCheck(i);
-		}
-	}
-	
-	CPrintToChat(client, "%s %t", g_ZR_Rank_Prefix, "Reset All");
-	
-	return Plugin_Handled;
+	OnClientPostAdminCheck(client);
 }
+
 
 stock bool IsValidClient(int client)
 {

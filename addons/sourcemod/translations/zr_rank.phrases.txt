@@ -195,6 +195,97 @@
 		"en"		"{1} - {2} Win(s)"
 		"pt"		"{1} - {2} Vitória(s)"
 	}
+	
+	"Want to Reset Data"
+	{
+		"en"	"Do you really want to reset your rank?"
+		"pt"	"Queres mesmo reiniciar o teu rank?"
+	}
+	
+	"Yes"
+	{
+		"en"	"Yes"
+		"pt"	"Sim"
+	}
 
-
+	"No"
+	{
+		"en"	"No"
+		"pt"	"Não"
+	}
+	
+	"Your Rank Reset"
+	{
+		"en"	"Your rank has been reseted successfully!"
+		"pt"	"O teu rank foi reiniciado com sucesso!"
+	}
+	
+	"Player Stats"
+	{
+		"en"	"Your Rank Stats"
+		"pt"	"As tuas estatísticas do Rank"
+	}
+	
+	"Player Name"
+	{
+		"#format"	"{1:s}"
+		"en"		"Name: {1}"
+		"pt"		"Nome: {1}"
+	}
+	
+	"Player SteamID"
+	{
+		"#format"	"{1:s}"
+		"en"		"SteamID: {1}"
+		"pt"		"SteamID: {1}"
+	}
+	
+	"Player Points"
+	{
+		"#format"	"{1:d}"
+		"en"		"Points: {1}"
+		"pt"		"Pontos: {1}"
+	}
+	
+	"Player Zombie Kills"
+	{
+		"#format"	"{1:d}"
+		"en"		"Zombies Killed: {1}"
+		"pt"		"Zombies Mortos: {1}"
+	}
+	
+	"Player Human Infects"
+	{
+		"#format"	"{1:d}"
+		"en"		"Humans Infected: {1}"
+		"pt"		"Humanos Infetados: {1}"
+	}
+	
+	"Player RoundWins Zombie"
+	{
+		"#format"	"{1:d}"
+		"en"		"Rounds Won as a Zombie: {1}"
+		"pt"		"Rondas Ganhas a Zombie: {1}"
+	}
+	
+	"Player RoundWins Human"
+	{
+		"#format"	"{1:d}"
+		"en"		"Rounds Won as an Human: {1}"
+		"pt"		"Rondas Ganhas a Humano: {1}"
+	}
+	
+	"Currently Min Players"
+	{
+		"#format"	"{1:d}"
+		"en"		"Now there's {1} players in the server! Rank is now enabled!"
+		"pt"		"Agora existem {1} jogadores dentro do servidor! O Rank foi ativado!"
+	}
+	
+	"Currently Not Min Players"
+	{
+		"#format"	"{1:d}"
+		"en"		"Now there's less than {1} players in the server! Rank is now disabled!"
+		"pt"		"Agora existem menos de {1} jogadores dentro do servidor! O Rank foi desativado!"
+	}
 }

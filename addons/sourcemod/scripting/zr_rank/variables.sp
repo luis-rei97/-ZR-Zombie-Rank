@@ -19,6 +19,7 @@ ConVar g_CVAR_ZR_Rank_AllowWarmup;
 ConVar g_CVAR_ZR_Rank_Suicide;
 ConVar g_CVAR_ZR_Rank_RoundWin_Zombie;
 ConVar g_CVAR_ZR_Rank_RoundWin_Human;
+ConVar g_CVAR_ZR_Rank_Inactive_Days;
 
 
 // Booleans for Optional Libraries
@@ -45,6 +46,7 @@ int g_ZR_Rank_BeingKilled;
 int g_ZR_Rank_Suicide;
 int g_ZR_Rank_RoundWin_Zombie;
 int g_ZR_Rank_RoundWin_Human;
+int g_ZR_Rank_Inactive_Days;
 
 bool g_ZR_Rank_PostInfect;
 

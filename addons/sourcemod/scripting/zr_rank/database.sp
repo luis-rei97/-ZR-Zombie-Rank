@@ -16,7 +16,7 @@ public int OnSQLConnect(Handle owner, Handle hndl, char [] error, any data)
 		
 		if(IsMySql)
 		{
-			Format(buffer, sizeof(buffer), "CREATE TABLE IF NOT EXISTS zrank (SteamID VARCHAR(64) NOT NULL PRIMARY KEY DEFAULT '', playername VARCHAR(64) NOT NULL DEFAULT '', points INT NOT NULL DEFAULT 0, human_infects INT NOT NULL DEFAULT 0, zombie_kills INT NOT NULL DEFAULT 0, roundwins_zombie INT NOT NULL DEFAULT 0, roundwins_human INT NOT NULL DEFAULT 0);");
+			Format(buffer, sizeof(buffer), "CREATE TABLE IF NOT EXISTS zrank (SteamID VARCHAR(64) NOT NULL PRIMARY KEY DEFAULT '', playername VARCHAR(64) NOT NULL DEFAULT '', points INT NOT NULL DEFAULT 0, human_infects INT NOT NULL DEFAULT 0, zombie_kills INT NOT NULL DEFAULT 0, roundwins_zombie INT NOT NULL DEFAULT 0, roundwins_human INT NOT NULL DEFAULT 0, time INT(11) NOT NULL);");
 			
 			SQL_TQuery(db, OnSQLConnectCallback, buffer);
 		}
@@ -30,6 +30,8 @@ public int OnSQLConnectCallback(Handle owner, Handle hndl, char [] error, any da
 		LogError("Query failure: %s", error);
 		return;
 	}
+	
+	DeletePlayerData();
 	
 	for(int client = 1; client <= MaxClients; client++)
 	{
@@ -66,7 +68,7 @@ public void SQL_LoadPlayerCallback(Handle DB, Handle results, const char[] error
 		char insert[512];
 		char playername[64];
 		GetClientName(client, playername, sizeof(playername));
-		FormatEx(insert, sizeof(insert), "INSERT INTO zrank (SteamID , playername, points, human_infects, zombie_kills, roundwins_zombie, roundwins_human) VALUES ('%s', '%s', %d, 0, 0, 0, 0);", g_ZR_Rank_SteamID[client], playername, g_ZR_Rank_StartPoints);
+		FormatEx(insert, sizeof(insert), "INSERT INTO zrank (SteamID , playername, points, human_infects, zombie_kills, roundwins_zombie, roundwins_human, time) VALUES ('%s', '%s', %d, 0, 0, 0, 0, %d);", g_ZR_Rank_SteamID[client], playername, g_ZR_Rank_StartPoints, GetTime());
 		SQL_TQuery(db, SQL_NothingCallback, insert);
 	}
 }
@@ -132,7 +134,7 @@ public void SQL_GetTop(Handle DB, Handle results, const char[] error, any data)
 	char buffer[256];
 	
 	
-	Menu menu = new Menu(Menu_Top10_Handler);
+	Menu menu = new Menu(Menu_Nothing_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Points");
 	menu.SetTitle(buffer);
@@ -168,7 +170,7 @@ public void SQL_GetTopZombieKills(Handle DB, Handle results, const char[] error,
 	char buffer[256];
 	
 	
-	Menu menu = new Menu(Menu_Top10_Handler);
+	Menu menu = new Menu(Menu_Nothing_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Zombie Kills");
 	menu.SetTitle(buffer);
@@ -204,7 +206,7 @@ public void SQL_GetTopInfectedHumans(Handle DB, Handle results, const char[] err
 	char buffer[256];
 	
 	
-	Menu menu = new Menu(Menu_Top10_Handler);
+	Menu menu = new Menu(Menu_Nothing_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Human Infects");
 	menu.SetTitle(buffer);
@@ -241,7 +243,7 @@ public void SQL_GetTopWinRounds_Human(Handle DB, Handle results, const char[] er
 	char buffer[256];
 	
 	
-	Menu menu = new Menu(Menu_Top10_Handler);
+	Menu menu = new Menu(Menu_Nothing_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Round Wins Human");
 	menu.SetTitle(buffer);
@@ -278,7 +280,7 @@ public void SQL_GetTopWinRounds_Zombie(Handle DB, Handle results, const char[] e
 	char buffer[256];
 	
 	
-	Menu menu = new Menu(Menu_Top10_Handler);
+	Menu menu = new Menu(Menu_Nothing_Handler);
 	
 	FormatEx(buffer, sizeof(buffer), "%t", "Top Order By Round Wins Zombie");
 	menu.SetTitle(buffer);
@@ -293,16 +295,4 @@ public void SQL_GetTopWinRounds_Zombie(Handle DB, Handle results, const char[] e
 	}
 	menu.ExitButton = true;
 	menu.Display(client, 0);
-}
-
-public int Menu_Top10_Handler(Menu menu, MenuAction action, int client, int choice)
-{
-	if (action == MenuAction_Select)
-	{
-		
-	}
-	else if (action == MenuAction_End)
-	{
-		delete menu;
-	}
 }
