@@ -1,0 +1,248 @@
+"Phrases"
+{
+	"Reset All"
+	{
+		"ru"	"База данных была успешно сброшена!"
+	}
+
+	"Warmup End"
+	{
+		"ru"	"Ранг будет включен после Разминки!"
+	}
+
+	"Stab Zombie Left Won"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) нанеся удар зомби левой кнопкой мыши!"
+	}
+
+	"Stab Zombie Right Won"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) нанеся удар зомби правой кнопкой мыши!"
+	}
+
+	"Kill Zombie Knife"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби ножом!"
+	}
+
+	"Kill Zombie HE"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби с помощью осколочной гранаты!"
+	}
+
+	"Kill Zombie Smoke"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби дымовой гранатой!"
+	}
+
+	"Kill Zombie Flash"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби световой гранатой!"
+	}
+
+	"Kill Zombie Decoy"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби ложной гранатой!"
+	}
+
+	"Kill Zombie Headshot"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби выстрелом в голову!"
+	}
+
+	"Kill Zombie Normal"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) убив зомби!"
+	}
+
+	"Killed by Human"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) за то, что были убиты человеком!"
+	}
+
+	"Infect Human"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы получили {1} очко(в) заразив человека!"
+	}
+
+	"Infected by Human"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Вы потеряли {1} очко(в) за то, что были заражены человеком!"
+	}
+
+	"Top Order By Points"
+	{
+		"ru"	"[ZR] Топ Ранг (По очкам)"
+	}
+
+	"X - Y Points"
+	{
+		"#format"	"{1:s},{2:d}"
+		"ru"		"{1} - {2} Очко(в)"
+	}
+
+	"Top Order By Zombie Kills"
+	{
+		"ru"	"[ZR] Топ Ранг (По убийствам зомби)"
+	}
+
+	"X - Y Zombie Kills"
+	{
+		"#format"	"{1:s},{2:d}"
+		"ru"		"{1} - {2} Зомби убито"
+	}
+
+	"Top Order By Human Infects"
+	{
+		"ru"	"[ZR] Топ Ранг (По зараженным людям)"
+	}
+
+	"X - Y Humans Infected"
+	{
+		"#format"	"{1:s},{2:d}"
+		"ru"		"{1} - {2} Людей заражено"
+	}
+
+	"Show Rank"
+	{
+		"#format" 	"{1:d},{2:d},{3:d},{4:d},{5:d}"
+		"ru"		"Вы на {1}/{2}, с {3} очками, {4} зараженными людьми и {5} убитыми зомби!"
+	}
+
+	"Show More Than X Players"
+	{
+		"#format"	"{1:d}"
+		"ru" 		"Невозможно показать больше, чем {1} игроков в топе!"
+	}
+
+	"Lost Points By Suicide"
+	{
+		"#format"	"{1:d}"
+		"ru" 		"Вы потеряли {1} очко(в) за самоубийство!"
+	}
+
+	"Won Round As Zombie"
+	{
+		"#format"	"{1:d}"
+		"ru" 		"Вы получили {1} очко(в) выиграв раунд за зомби!"
+	}
+
+	"Won Round As Human"
+	{
+		"#format"	"{1:d}"
+		"ru" 		"Вы получили {1} очко(в) выиграв раунд за человека!"
+	}
+
+	"Top Order By Round Wins Human"
+	{
+		"ru"	"[ZR] Топ Ранг (По победам за человека)"
+	}
+
+	"X - Y Round Wins Human"
+	{
+		"#format"	"{1:s},{2:d}"
+		"ru"		"{1} - {2} Побед(а)"
+	}
+
+	"Top Order By Round Wins Zombie"
+	{
+		"ru"	"[ZR] Топ Ранг (По победам за зомби)"
+	}
+
+	"X - Y Round Wins Zombie"
+	{
+		"#format"	"{1:s},{2:d}"
+		"ru"		"{1} - {2} Побед(а)"
+	}
+	
+	"Want to Reset Data"
+	{
+		"ru"	"Вы действительно хотите сбросить свой ранг?"
+	}
+	
+	"Yes"
+	{
+		"ru"	"Да"
+	}
+
+	"No"
+	{
+		"ru"	"Нет"
+	}
+	
+	"Your Rank Reset"
+	{
+		"ru"	"Ваш ранг был успешно сброшен!"
+	}
+	
+	"Player Stats"
+	{
+		"ru"	"Статистика вашего ранга"
+	}
+	
+	"Player Name"
+	{
+		"#format"	"{1:s}"
+		"ru"		"Имя: {1}"
+	}
+	
+	"Player SteamID"
+	{
+		"#format"	"{1:s}"
+		"ru"		"SteamID: {1}"
+	}
+	
+	"Player Points"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Очков: {1}"
+	}
+	
+	"Player Zombie Kills"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Зомби Убито: {1}"
+	}
+	
+	"Player Human Infects"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Людей Заражено: {1}"
+	}
+	
+	"Player RoundWins Zombie"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Победных раундов за зомби: {1}"
+	}
+	
+	"Player RoundWins Human"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Победных раундов за человека: {1}"
+	}
+	
+	"Currently Min Players"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Теперь здесь {1} игроков на сервере! Ранг теперь включен!"
+	}
+	
+	"Currently Not Min Players"
+	{
+		"#format"	"{1:d}"
+		"ru"		"Теперь здесь меньше чем {1} игроков на сервере! Ранг теперь отключен!"
+	}
+}
