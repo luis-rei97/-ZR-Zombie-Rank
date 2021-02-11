@@ -4,12 +4,14 @@
 	{
 		"en"	"Database has been reseted successfully!"
 		"pt"	"A base de dados foi apagada com sucesso!"
+		"es"    "La base de datos fue reiniciada con éxito!
 	}
 
 	"Warmup End"
 	{
 		"en"	"Rank will be enabled after Warmup!"
 		"pt"	"O rank será ativado após o aquecimento terminar!"
+		"es"    "El rank estará habilitado después del Warmup!"
 	}
 
 	"Stab Zombie Left Won"
@@ -17,6 +19,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by stabbing a zombie with mouse left button!"
 		"pt"		"Ganhaste {1} ponto(s) por chinar um zombie com o lado esquerdo do rato!"
+        "es"        "Ganaste {1} punto(s) por apuñalar a un zombie con el botón izquierdo!
 	}
 
 	"Stab Zombie Right Won"
@@ -24,6 +27,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by stabbing a zombie with mouse right button!"
 		"pt"		"Ganhaste {1} ponto(s) por chinar um zombie com o lado direito do rato!"
+		"es"        "Ganaste {1} punto(s) por apuñalar a un zombie con el botón derecho!
 	}
 
 	"Kill Zombie Knife"
@@ -31,6 +35,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie with a knife!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com a faca!"
+		"es"        "Ganaste {1} puntos(s) por matar a un zombie con un cuchillo!"
 	}
 
 	"Kill Zombie HE"
@@ -38,6 +43,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie with a HE grenade!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma granada HE!"
+		"es"        "Ganaste {1} punto(s) por matar a un zombie con una granada HE!"
 	}
 
 	"Kill Zombie Smoke"
@@ -45,6 +51,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie with a smoke grenade!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma granada de fumo!"
+		"es"        "Ganaste {1} punto(s) por matar a un zombie con una granada de humo!"
 	}
 
 	"Kill Zombie Flash"
@@ -52,6 +59,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie with a flashbang!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma flashbang!"
+		"es"        "Ganaste {1} punto(s) por matar a un zombie con una granada aturdidora!"
 	}
 
 	"Kill Zombie Decoy"
@@ -59,6 +67,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie with a decoy grenade!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com uma decoy!"
+		"es"        "Ganaste {1} punto(s) por matar a un zombie con una granada señuelo!"
 	}
 
 	"Kill Zombie Headshot"
@@ -66,6 +75,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie with an headshot!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie com um tiro na cabeça!"
+		"es"        "Ganaste {1} punto(s) por matar a un zombie con un disparo a la cabeza"
 	}
 
 	"Kill Zombie Normal"
@@ -73,6 +83,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by killing a zombie!"
 		"pt"		"Ganhaste {1} ponto(s) por matar um zombie!"
+		"es"        "Ganaste {1} puntos(s) por matar un zombie!"
 	}
 
 	"Killed by Human"
@@ -80,6 +91,7 @@
 		"#format"	"{1:d}"
 		"en"		"You lost {1} point(s) for being killed by an human!"
 		"pt"		"Perdeste {1} ponto(s) por teres sido morto por um humano!"
+		"es"        "Perdiste {1} punto(s) por ser asesinado por un humano!"
 	}
 
 	"Infect Human"
@@ -87,6 +99,7 @@
 		"#format"	"{1:d}"
 		"en"		"You won {1} point(s) by infecting an human!"
 		"pt"		"Ganhaste {1} ponto(s) por infetares um humano!"
+		"es"        "Ganaste ´{1} punto(s) por infectar a un humano!"
 	}
 
 	"Infected by Human"
@@ -94,12 +107,14 @@
 		"#format"	"{1:d}"
 		"en"		"You lost {1} point(s) for being infected by an human!"
 		"pt"		"Perdeste {1} ponto(s) por teres sido infetado por um humano!"
+		"es"        "Perdiste {1} punto(s) por ser infectado por un humano!"
 	}
 
 	"Top Order By Points"
 	{
 		"en"	"[ZR] Rank Top (Order by Points)"
 		"pt"	"[ZR] Rank Top (Ordenado por Pontos)"
+		"es"    "[ZR] Rank Top (Ordenado por puntos)"
 	}
 
 	"X - Y Points"
@@ -107,12 +122,14 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"{1} - {2} Point(s)"
 		"pt"		"{1} - {2} Ponto(s)"
+		"es"        "{1} - {2} Punto(s)"
 	}
 
 	"Top Order By Zombie Kills"
 	{
 		"en"	"[ZR] Rank Top (Order by Zombie Kills)"
 		"pt"	"[ZR] Rank Top (Ordenado por Zombies Mortos)"
+		"es"    "[ZR] Rank Top (Ordenado por muertes de Zombies)"
 	}
 
 	"X - Y Zombie Kills"
@@ -120,12 +137,14 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"{1} - {2} Zombie Kill(s)"
 		"pt"		"{1} - {2} Zombie(s) Morto(s)"
+		"es"        "{1} - {2} Zombie(s) Asesinado(s)"
 	}
 
 	"Top Order By Human Infects"
 	{
 		"en"	"[ZR] Rank Top (Order by Infected Humans)"
 		"pt"	"[ZR] Rank Top (Ordenado por Humanos Infetados)"
+		"es"    "[ZR] Rank Top (Ordenado por Humanos Infectados)"
 	}
 
 	"X - Y Humans Infected"
@@ -133,6 +152,7 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"{1} - {2} Human(s) Infected"
 		"pt"		"{1} - {2} Humano(s) Infetado(s)"
+		"es"        "{1} - {2} Humano(s) Infectado(s)"
 	}
 
 	"Show Rank"
@@ -140,6 +160,7 @@
 		"#format" 	"{1:d},{2:d},{3:d},{4:d},{5:d}"
 		"en"		"You are in {1}/{2}, with {3} points, {4} humans infected and {5} zombies killed!"
 		"pt"		"Estás em {1}/{2}, com {3} pontos, {4} humanos infetados e {5} zombies mortos!"
+		"es"        "Estás en {1}/{2}, con {3} puntos, {4} humanos infectados y {5} zombies muertos!"
 	}
 
 	"Show More Than X Players"
@@ -147,6 +168,7 @@
 		"#format"	"{1:d}"
 		"en" 		"You can't show more than {1} players on top!"
 		"pt"		"Não podes ver mais de {1} jogadores de uma vez!"
+		"es"        "No puedes ver más de {1} jugadores en el top!"
 	}
 
 	"Lost Points By Suicide"
@@ -154,6 +176,7 @@
 		"#format"	"{1:d}"
 		"en" 		"You lost {1} point(s) by suiciding!"
 		"pt"		"Perdeste {1} ponto(s) por te  suicidares!"
+		"es"        "Perdiste {1} punto(s) por suicidarte!"
 	}
 
 	"Won Round As Zombie"
@@ -161,6 +184,7 @@
 		"#format"	"{1:d}"
 		"en" 		"You won {1} point(s) by winning the round as a zombie!"
 		"pt"		"Ganhaste {1} ponto(s) por ganhares a ronda, sendo um zombie!"
+		"es"        "Ganaste {1} punto(s) por ganar la ronda siendo un zombie!"
 	}
 
 	"Won Round As Human"
@@ -168,12 +192,14 @@
 		"#format"	"{1:d}"
 		"en" 		"You won {1} point(s) by winning the round as an human!"
 		"pt"		"Ganhaste {1} ponto(s) por ganhares a ronda, sendo um humano!"
+		"es"        "Ganaste {1} punto(s) por ganar la ronda siendo un humano!"
 	}
 
 	"Top Order By Round Wins Human"
 	{
 		"en"	"[ZR] Rank Top (Order by Round Wins as Human)"
 		"pt"	"[ZR] Rank Top (Ordenado por Rondas Ganhas como Humano)"
+		"es"    "[ZR] Rank Top (Ordenado por Rondas Ganadas como Humano)"
 	}
 
 	"X - Y Round Wins Human"
@@ -181,12 +207,14 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"{1} - {2} Win(s)"
 		"pt"		"{1} - {2} Vitória(s)"
+		"es"        "{1} - {2} Victoria(s)"
 	}
 
 	"Top Order By Round Wins Zombie"
 	{
 		"en"	"[ZR] Rank Top (Order by Round Wins as Zombie)"
 		"pt"	"[ZR] Rank Top (Ordenado por Rondas Ganhas como Zombie)"
+		"es"    "[ZR] Rank Top (Ordenado por Rondas Ganadas como Zombie)"
 	}
 
 	"X - Y Round Wins Zombie"
@@ -194,36 +222,42 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"{1} - {2} Win(s)"
 		"pt"		"{1} - {2} Vitória(s)"
+		"es"        "{1} - {2} Victoria(s)"
 	}
 	
 	"Want to Reset Data"
 	{
 		"en"	"Do you really want to reset your rank?"
 		"pt"	"Queres mesmo reiniciar o teu rank?"
+		"es"    "Realmente quieres reiniciar tu rank?"
 	}
 	
 	"Yes"
 	{
 		"en"	"Yes"
 		"pt"	"Sim"
+		"es"    "Si"
 	}
 
 	"No"
 	{
 		"en"	"No"
 		"pt"	"Não"
+		"es"    "No"
 	}
 	
 	"Your Rank Reset"
 	{
 		"en"	"Your rank has been reseted successfully!"
 		"pt"	"O teu rank foi reiniciado com sucesso!"
+		"es"    "Tu rango fue reiniciado exitosamente!"
 	}
 	
 	"Player Stats"
 	{
 		"en"	"Your Rank Stats"
 		"pt"	"As tuas estatísticas do Rank"
+		"es"    "Tus estadísticas de Rango"
 	}
 	
 	"Player Name"
@@ -231,6 +265,7 @@
 		"#format"	"{1:s}"
 		"en"		"Name: {1}"
 		"pt"		"Nome: {1}"
+		"es"        "Nombre {1}"
 	}
 	
 	"Player SteamID"
@@ -238,6 +273,7 @@
 		"#format"	"{1:s}"
 		"en"		"SteamID: {1}"
 		"pt"		"SteamID: {1}"
+		"es"        "SteamID: {1}"
 	}
 	
 	"Player Points"
@@ -245,6 +281,7 @@
 		"#format"	"{1:d}"
 		"en"		"Points: {1}"
 		"pt"		"Pontos: {1}"
+		"es"        "Puntos: {1}"
 	}
 	
 	"Player Zombie Kills"
@@ -252,6 +289,7 @@
 		"#format"	"{1:d}"
 		"en"		"Zombies Killed: {1}"
 		"pt"		"Zombies Mortos: {1}"
+		"es"        "Zombies Asesinados: {1}"
 	}
 	
 	"Player Human Infects"
@@ -259,6 +297,7 @@
 		"#format"	"{1:d}"
 		"en"		"Humans Infected: {1}"
 		"pt"		"Humanos Infetados: {1}"
+		"es"        "Humanos Infectados: {1}"
 	}
 	
 	"Player RoundWins Zombie"
@@ -266,6 +305,7 @@
 		"#format"	"{1:d}"
 		"en"		"Rounds Won as a Zombie: {1}"
 		"pt"		"Rondas Ganhas a Zombie: {1}"
+		"es"        "Rondas Ganadas como Zombie: {1}"
 	}
 	
 	"Player RoundWins Human"
@@ -273,6 +313,7 @@
 		"#format"	"{1:d}"
 		"en"		"Rounds Won as an Human: {1}"
 		"pt"		"Rondas Ganhas a Humano: {1}"
+		"es"        "Rondas Ganadas como Humano {1}"
 	}
 	
 	"Currently Min Players"
@@ -280,6 +321,7 @@
 		"#format"	"{1:d}"
 		"en"		"Now there's {1} players in the server! Rank is now enabled!"
 		"pt"		"Agora existem {1} jogadores dentro do servidor! O Rank foi ativado!"
+		"es"        "Ahora hay {1} jugadores dentro del servidor! El rank está habilitado!"
 	}
 	
 	"Currently Not Min Players"
@@ -287,5 +329,6 @@
 		"#format"	"{1:d}"
 		"en"		"Now there's less than {1} players in the server! Rank is now disabled!"
 		"pt"		"Agora existem menos de {1} jogadores dentro do servidor! O Rank foi desativado!"
+		"es"        "Ahora hay menos de {1} jugadores en el servidor! El rank fue deshabilitado!"
 	}
 }
